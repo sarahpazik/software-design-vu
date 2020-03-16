@@ -83,7 +83,8 @@ public class Main {
                     e.printStackTrace();
                 }
 
-                Player player1 = new Player(playerName,  new ArrayList<Item>(),roomMap.get(startRoom.getString("name")));
+                Inventory inventory1 = new Inventory(new ArrayList<Item>());
+                Player player1 = new Player(playerName,  inventory1,roomMap.get(startRoom.getString("name")));
                 System.out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);
 
                 mainWhile: while(!player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))){

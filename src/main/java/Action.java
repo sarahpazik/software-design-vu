@@ -12,19 +12,6 @@ public class Action {
         this.room = room;
     }
 
-    public static String printInventory(ArrayList<Item> playerItems) {
-        String playerInventory = "";
-        String playerInventoryFinal;
-
-        for (Item item : playerItems){
-            playerInventory = item.getNameFromItem() + ", " + playerInventory;
-        }
-        int unnecessaryComma = playerInventory.lastIndexOf(",");
-        playerInventoryFinal = "Your current inventory: " + playerInventory.substring(0, unnecessaryComma);
-
-        return playerInventoryFinal;
-    }
-
     private static void move(String[] command, Player player){
         if (command[1].equals("to")) {
             Room currentRoom = player.getCurrentRoom();
@@ -63,10 +50,10 @@ public class Action {
             if (item == null) {
                 System.out.println(Main.ANSI_BLUE + "\nThe item name is invalid. Please ask for help.\n" + Main.ANSI_RESET);
             } else {
-                player.addToInventory(item);
+                player.inventory.addToInventory(item);
                 currentRoom.removeItemFromRoom(itemName);
                 System.out.println(Main.ANSI_BLUE + "\nYou have picked up " + itemName + "." + Main.ANSI_RESET);
-                System.out.println(Main.ANSI_BLUE + printInventory(player.getInventory())
+                System.out.println(Main.ANSI_BLUE + Inventory.printInventory(player.inventory.getInventory())
                         + ".\n" + Main.ANSI_RESET);
             }
 
@@ -93,11 +80,11 @@ public class Action {
     }
 
     private static void help(String[] command, Player player){
-        ArrayList<Item> playerItems = player.getInventory();
+        ArrayList<Item> playerItems = player.inventory.getInventory();
         String playerInventory = "";
         String playerInventoryFinal;
         if (playerItems.size() != 0){
-            playerInventoryFinal = printInventory(player.getInventory());
+            playerInventoryFinal = Inventory.printInventory(player.inventory.getInventory());
         } else {
             playerInventoryFinal = "Your current inventory is empty";
         }
