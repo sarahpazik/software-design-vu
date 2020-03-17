@@ -83,11 +83,12 @@ public class Main {
                     e.printStackTrace();
                 }
 
+                TimeLimit timelimit1 = new TimeLimit(300, System.currentTimeMillis()/1000);
                 Inventory inventory1 = new Inventory(new ArrayList<Item>());
                 Player player1 = new Player(playerName,  inventory1,roomMap.get(startRoom.getString("name")));
                 System.out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);
 
-                mainWhile: while(!player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))){
+                mainWhile: while(!player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name")) && timelimit1.getCurrentTime()<timelimit1.getTimeLimit()){
                     try {
                         String[] input2 = in.readLine().split("\\s+");
                         if(input2[0].equals("quit") && input2.length == 1) {
@@ -103,6 +104,9 @@ public class Main {
                     if(player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))){
                         System.out.println(ANSI_BLUE + "\nCONGRATULATIONS, " + playerName +  "! You made it to " + endRoom.getString("name") + "\n" + ANSI_RESET);
                     }
+                }
+                if(timelimit1.getCurrentTime()>=timelimit1.getTimeLimit()){
+                    System.out.println(ANSI_BLUE + "\nSORRY, " + playerName +  ". You did not make it to " + endRoom.getString("name") + " in time.\n" + ANSI_RESET);
                 }
             }else{
                 System.out.println(ANSI_BLUE + "\nNot a valid json file.\n" + ANSI_RESET);
