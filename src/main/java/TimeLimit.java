@@ -5,6 +5,7 @@ public class TimeLimit {
     private int timeLimit;
     private float startTime;
 
+    // all times are in seconds
     public TimeLimit(int timeLimit, float startTime) {
         this.currentTime = 0;
         this.timeLimit = timeLimit;
