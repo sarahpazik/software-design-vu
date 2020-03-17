@@ -7,7 +7,7 @@ Maximum number of words for this document: 18000
 **Format**: establish formatting conventions when describing your models in this document. For example, you style the name of each class in bold, whereas the attributes, operations, and associations as underlined text, objects are in italic, etc.
 
 ### Summary of changes of Assignment 2
-Author(s): Sarah, 
+Author(s): Sarah
 
 Provide a bullet list summarizing all the changes you performed in Assignment 2 for addressing our feedback.
 
