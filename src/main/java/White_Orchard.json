@@ -1,4 +1,5 @@
 {
+  "time limit": 300,
   "start room": "Hilltop",
   "end room" : "Imperial Palace in Vizima",
   "rooms" : [

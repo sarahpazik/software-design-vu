@@ -40,6 +40,7 @@ public class Main {
                 String start = tomJsonObject.getString("start room");
                 String end = tomJsonObject.getString("end room");
                 JSONArray rooms = tomJsonObject.getJSONArray("rooms");
+                int timeLimit = tomJsonObject.getInt("time limit");
 
                 for (int i = 0; i < rooms.length(); i++){
                     JSONObject room = rooms.getJSONObject(i);
@@ -83,7 +84,7 @@ public class Main {
                     e.printStackTrace();
                 }
 
-                TimeLimit timelimit1 = new TimeLimit(300, System.currentTimeMillis()/1000);
+                TimeLimit timelimit1 = new TimeLimit(timeLimit, System.currentTimeMillis()/1000);
                 Inventory inventory1 = new Inventory(new ArrayList<Item>());
                 Player player1 = new Player(playerName,  inventory1,roomMap.get(startRoom.getString("name")));
                 System.out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);

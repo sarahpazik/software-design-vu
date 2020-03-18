@@ -1,4 +1,5 @@
 {
+  "time limit": 300,
   "start room": "Central Station",
   "end room" : "The Airplane",
   "rooms" : [

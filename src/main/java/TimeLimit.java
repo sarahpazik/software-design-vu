@@ -1,24 +1,24 @@
 import java.util.*;
 
 public class TimeLimit {
-    private float currentTime;
+    private long currentTime;
     private int timeLimit;
-    private float startTime;
+    private long startTime;
 
     // all times are in seconds
-    public TimeLimit(int timeLimit, float startTime) {
+    public TimeLimit(int timeLimit, long startTime) {
         this.currentTime = 0;
         this.timeLimit = timeLimit;
         this.startTime = startTime;
     }
 
-    public int getTimeLimit() { return timeLimit; }
+    public int getTimeLimit() { return this.timeLimit; }
 
     public void setTimeLimit(int time) {
-        timeLimit = time;
+        this.timeLimit = time;
     }
 
-    public float getCurrentTime() {
+    public long getCurrentTime() {
         currentTime = System.currentTimeMillis()/1000 - startTime;
         return currentTime;
     }
