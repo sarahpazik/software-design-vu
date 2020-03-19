@@ -150,6 +150,7 @@ public class Action {
                     chatroom.frame.setVisible(true);
                     chatroom.run();
                 } catch(Exception e){
+                    System.out.println(Main.ANSI_BLUE + "\nThe chat server is only available from 8 to 16 UTC.");
                 }
             });
             chatThread.start();

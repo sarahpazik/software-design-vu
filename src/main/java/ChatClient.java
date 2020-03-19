@@ -42,26 +42,31 @@ public class ChatClient {
     }
 
     public void run() throws IOException {
-        Socket socket = new Socket(serverAddress, 59001);
+        try{
+            Socket socket = new Socket(serverAddress, 59001);
 
-        out = new PrintWriter(socket.getOutputStream(), true);
-        in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new Scanner(socket.getInputStream());
 
-        while (in.hasNextLine()) {
-            String text = in.nextLine();
+            while (in.hasNextLine()) {
+                String text = in.nextLine();
 
-            if (text.startsWith("TEXT")) {
-                messageArea.append(text.substring(5) + "\n");
+                if (text.startsWith("TEXT")) {
+                    messageArea.append(text.substring(5) + "\n");
+                }
+                if (text.startsWith("ENTERNAME")) {
+                    out.println(name());
+                }
+                if (text.startsWith("NAMEOKAY")) {
+                    textField.setEditable(true);
+
+                    this.frame.setTitle("Chat Room: " + text.substring(9));
+
+                }
             }
-            if (text.startsWith("ENTERNAME")) {
-                out.println(name());
-            }
-            if (text.startsWith("NAMEOKAY")) {
-                textField.setEditable(true);
-
-                this.frame.setTitle("Chat Room: " + text.substring(9));
-
-            }
+        } catch(Exception e) {
+            this.frame.dispose();
+            throw new IOException();
         }
     }
 }
