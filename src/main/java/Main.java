@@ -89,12 +89,12 @@ public class Main {
                 Player player1 = new Player(playerName,  inventory1,roomMap.get(startRoom.getString("name")));
                 System.out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);
 
-                mainWhile: while(!player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name")) && timelimit1.getCurrentTime()<timelimit1.getTimeLimit()){
+                while(!player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name")) && timelimit1.getCurrentTime()<timelimit1.getTimeLimit()){
                     try {
                         String[] input2 = in.readLine().split("\\s+");
                         if(input2[0].equals("quit") && input2.length == 1) {
                             System.out.println(ANSI_BLUE + "\nYou lose!\n" + ANSI_RESET);
-                            break mainWhile;
+                            System.exit(0);
                         }
                         else {
                             Action.doAction(input2, player1);

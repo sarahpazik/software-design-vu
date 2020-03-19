@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -93,7 +96,8 @@ public class Action {
                 Main.ANSI_BLUE +  ".\nTo see where to move to next and what items are in this location, type " +
                 Main.ANSI_MAGENTA + "'look around'" + Main.ANSI_BLUE + ".\nTo add an item to your inventory, type " +
                 Main.ANSI_MAGENTA +  "'pick up <item>'" + Main.ANSI_BLUE + ".\nTo learn more about an item, type " +
-                Main.ANSI_MAGENTA + "'inspect <item>'" + Main.ANSI_BLUE + ".\nTo quit the game, type " +
+                Main.ANSI_MAGENTA + "'inspect <item>'" + Main.ANSI_BLUE + ".\nTo open the chat room, type " +
+                Main.ANSI_MAGENTA + "'chat'" + Main.ANSI_BLUE + ".\nTo quit the game, type " +
                 Main.ANSI_MAGENTA + "'quit'" + Main.ANSI_BLUE + ".\n" + Main.ANSI_RESET);
     }
 
@@ -121,6 +125,37 @@ public class Action {
         }
     }
 
+    private static void chat(String[] command, Player player) {
+        if(player.isChatting)
+        {
+            System.out.println(Main.ANSI_BLUE + "\nYou are already chatting! \n" + Main.ANSI_RESET);
+        }
+        else {
+            //Separate thread for chatroom
+            Thread chatThread = new Thread(() -> {
+                try {
+                    player.setIsChatting(true);
+                    ChatClient chatroom = new ChatClient("13.58.146.33"); //Amazon EC2 instance IP Address where server is hosted
+                    chatroom.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+                    //custom chatroom frame exit handler to account for Player object's isChatting variable change of state
+                    WindowListener exitListener = new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            player.setIsChatting(false);
+                            chatroom.frame.dispose();
+                        }
+                    };
+                    chatroom.frame.addWindowListener(exitListener);
+                    chatroom.frame.setVisible(true);
+                    chatroom.run();
+                } catch(Exception e){
+                }
+            });
+            chatThread.start();
+        }
+
+    }
     public static void doAction(String[] command, Player player) {
         Action result;
         String keyword = command[0];
@@ -141,7 +176,9 @@ public class Action {
             case "look":
                 look(command, player);
                 break;
-
+            case "chat":
+                chat(command, player);
+                break;
             default:
                 System.out.println(Main.ANSI_BLUE + "\nThe command name is invalid. Please ask for help.\n" + Main.ANSI_RESET);
         }
