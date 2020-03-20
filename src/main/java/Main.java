@@ -13,6 +13,7 @@ public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_MAGENTA = "\u001b[35m";
+    public static final String ANSI_RED = "\u001b[31m";
 
     public static JSONObject startRoom;
     public static JSONObject endRoom;
@@ -21,6 +22,47 @@ public class Main {
     public static HashMap<String, Item> itemMap = new HashMap<>();
 
     public static String playerName;
+
+    private static void promptQuit(Player player) {
+        System.out.println(ANSI_RED + "\nWould you like to save your place, and return later? Answer: yes / no. \n" + ANSI_RESET);
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String saveResponse;
+
+        try {
+            saveResponse = in.readLine();
+            if (saveResponse.equals("no")) {
+                System.out.println(ANSI_RED + "\nYou lose!\n" + ANSI_RESET);
+                System.exit(0);
+            } else if (saveResponse.equals("yes")) {
+                JSONObject currentStatus = new JSONObject();
+                currentStatus.put("currentRoom", player.getCurrentRoom());
+                currentStatus.put("currentInventory", player.inventory);
+
+                JSONObject currentPlayer = new JSONObject();
+                currentPlayer.put("player", currentStatus);
+
+                JSONArray playerArray = new JSONArray();
+                playerArray.put(currentPlayer);
+
+                try (FileWriter file = new FileWriter("Amsterdam.json")) {
+
+                    file.write(playerArray.toString());
+                    file.flush();
+
+                    System.out.println(ANSI_RED + "\nSee you later!\n" + ANSI_RESET);
+                    System.exit(0);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println(ANSI_RED + "\nYou need to answer 'yes' or 'no'. Try again.\n" + ANSI_RESET);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void main (String[] args){
 
@@ -93,8 +135,7 @@ public class Main {
                     try {
                         String[] input2 = in.readLine().split("\\s+");
                         if(input2[0].equals("quit") && input2.length == 1) {
-                            System.out.println(ANSI_BLUE + "\nYou lose!\n" + ANSI_RESET);
-                            System.exit(0);
+                            promptQuit(player1);
                         }
                         else {
                             Action.doAction(input2, player1);

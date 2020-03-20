@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Action {
@@ -126,7 +124,7 @@ public class Action {
     }
 
     private static void chat(String[] command, Player player) {
-        if(player.isChatting)
+        if (player.isChatting)
         {
             System.out.println(Main.ANSI_BLUE + "\nYou are already chatting! \n" + Main.ANSI_RESET);
         }
@@ -157,6 +155,7 @@ public class Action {
         }
 
     }
+
     public static void doAction(String[] command, Player player) {
         Action result;
         String keyword = command[0];
