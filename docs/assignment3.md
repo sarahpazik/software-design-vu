@@ -16,6 +16,7 @@ Provide a bullet list summarizing all the changes you performed in Assignment 2 
 * Updated class diagram to properly represent JSON objects 
 * Added association names to the class diagram 
 * Added the chat room feature (Added ChatClient class) so that you can communicate with other players (use command "chat")
+* Implemented time limit feature to make the game slightly more complex
 
 Maximum number of words for this section: 1000
 
