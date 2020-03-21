@@ -27,12 +27,29 @@ public class Action {
             Room nextRoom = currentRoom.getNextRoomFromName(wholeName);
 
             if (nextRoom == null) {
-                System.out.println(Main.ANSI_BLUE + "\nThe room name is invalid. Please ask for help.\n" + Main.ANSI_RESET);
-                // TODO: Check here whether current room has an Obstacle. If so, check if next room is in the array of
-                // TODO: blocked rooms AND if obstacle is cleared, do not move and print error message if so
+                System.out.println(Main.ANSI_BLUE + "\nThe room name is invalid. Please ask for help.\n" +
+                        Main.ANSI_RESET);
+            }
+            else if (currentRoom.hasObstacle()) {
+                Obstacle currentObstacle = currentRoom.getObstacle();
+                if (!(currentObstacle.isCleared())) {
+                    String[] blockedRooms = currentObstacle.getRoomsBlocked();
+                    for (int n = 0; n < currentRoom.getNextRooms().length - 1; n++) {
+                        if (wholeName.equals(blockedRooms[n])) {
+                            System.out.println(Main.ANSI_BLUE + currentObstacle.getDescription() + "You won't be " +
+                                    "able to go this way until you deal with the obstacle.");
+                        }
+                    }
+                }
+                else {
+                    player.setCurrentRoom(nextRoom);
+                    System.out.println(Main.ANSI_BLUE + "\nYou have moved to " + nextRoom.getRoomName() + ".\n" +
+                            player.getCurrentRoom().getScript() + "\n" + Main.ANSI_RESET);
+                }
             } else {
                 player.setCurrentRoom(nextRoom);
-                System.out.println(Main.ANSI_BLUE + "\nYou have moved to " + nextRoom.getRoomName() + ".\n" + player.getCurrentRoom().getScript() + "\n" + Main.ANSI_RESET);
+                System.out.println(Main.ANSI_BLUE + "\nYou have moved to " + nextRoom.getRoomName() + ".\n" +
+                        player.getCurrentRoom().getScript() + "\n" + Main.ANSI_RESET);
             }
         }
         else {
@@ -96,9 +113,10 @@ public class Action {
                 Main.ANSI_BLUE +  ".\nTo see where to move to next and what items are in this location, type " +
                 Main.ANSI_MAGENTA + "'look around'" + Main.ANSI_BLUE + ".\nTo add an item to your inventory, type " +
                 Main.ANSI_MAGENTA +  "'pick up <item>'" + Main.ANSI_BLUE + ".\nTo learn more about an item, type " +
-                Main.ANSI_MAGENTA + "'inspect <item>'" + Main.ANSI_BLUE + ".\nTo open the chat room, type " +
-                Main.ANSI_MAGENTA + "'chat'" + Main.ANSI_BLUE + ".\nTo quit the game, type " +
-                Main.ANSI_MAGENTA + "'quit'" + Main.ANSI_BLUE + ".\n" + Main.ANSI_RESET);
+                Main.ANSI_MAGENTA + "'inspect <item>'" + Main.ANSI_BLUE + ".\nTo use an item on an obstacle in the " +
+                "room you're currently in, type " + Main.ANSI_MAGENTA + "'use <item>'" + Main.ANSI_BLUE + ".\nTo " +
+                "open the chat room, type " + Main.ANSI_MAGENTA + "'chat'" + Main.ANSI_BLUE + ".\nTo quit the game, " +
+                "type " + Main.ANSI_MAGENTA + "'quit'" + Main.ANSI_BLUE + ".\n" + Main.ANSI_RESET);
     }
 
     private static void look(String[] command, Player player){
@@ -120,8 +138,15 @@ public class Action {
                 int unnecessaryComma1 = itemOptionsString.lastIndexOf(",");
                 itemOptionsFinalString = itemOptionsString.substring(0, unnecessaryComma1);
             }
-            System.out.println(Main.ANSI_BLUE + "\nYou can move to " + roomOptionsString + ".\nItem(s) located" +
+            System.out.println(Main.ANSI_BLUE + "\nYou can move to " + roomOptionsString + ".\nItem(s) located " +
                     "in this room: " + itemOptionsFinalString + ".\n" + Main.ANSI_RESET);
+
+            // If there's an uncleared obstacle in the room, also print its description
+            if (player.getCurrentRoom().hasObstacle() && (!(player.getCurrentRoom().getObstacle().isCleared()))) {
+                System.out.println(Main.ANSI_BLUE + "\n" + player.getCurrentRoom().getObstacle().getDescription() +
+                        " You may want to (or have to) use some sort of item here before moving on.\n" +
+                        Main.ANSI_RESET);
+            }
         }
     }
 
@@ -155,7 +180,48 @@ public class Action {
             });
             chatThread.start();
         }
+    }
 
+    private static void use(String[] command, Player player) {
+        if (command.length == 2) {
+            String itemName = command[1];
+
+            Item item = Main.itemMap.get(itemName);
+
+            if (item == null) {
+                System.out.println(Main.ANSI_BLUE + "\nThat item does not exist.\n" + Main.ANSI_RESET);
+            }
+
+            Room playerLocation = player.getCurrentRoom();
+            Obstacle currentObstacle = playerLocation.getObstacle();
+
+            // Check if there even is an obstacle
+            if (currentObstacle == null) {
+                System.out.println(Main.ANSI_BLUE + "\nThere is no obstacle in this room to use an item on.\n" +
+                        Main.ANSI_RESET);
+            }
+            // Check if it's already been cleared
+            else if (currentObstacle.isCleared()) {
+                System.out.println(Main.ANSI_BLUE + "\n The obstacle in this room has already been cleared.\n" +
+                        Main.ANSI_RESET);
+            }
+            // Check if the player has the right item to clear this obstacle
+            else if (!(itemName.equals(currentObstacle.getItemNeeded()))) {
+                System.out.println(Main.ANSI_MAGENTA + "'" + itemName + "'" + Main.ANSI_BLUE + " wouldn't help " +
+                        "you here.\n" + Main.ANSI_RESET);
+            }
+            // Command has passed all checks, clear the obstacle
+            else {
+                if (currentObstacle.dropsItem()) {
+                    playerLocation.addItemToRoom(currentObstacle.getItemDropped());
+                }
+                currentObstacle.clearObstacle();
+            }
+        }
+        else {
+            System.out.println(Main.ANSI_BLUE + "\nType " + Main.ANSI_MAGENTA + "'use <item>'" + Main.ANSI_BLUE +
+                    " to use an item.\n" + Main.ANSI_RESET);
+        }
     }
 
     public static void doAction(String[] command, Player player) {
@@ -180,6 +246,9 @@ public class Action {
                 break;
             case "chat":
                 chat(command, player);
+                break;
+            case "use":
+                use(command, player);
                 break;
             default:
                 System.out.println(Main.ANSI_BLUE + "\nThe command name is invalid. Please ask for help.\n" + Main.ANSI_RESET);

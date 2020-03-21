@@ -16,6 +16,7 @@ public class Item {
     public String getNameFromItem(){
         return this.name;
     }
+
     public void holdItem(boolean hold) {
         this.held = hold;
     }

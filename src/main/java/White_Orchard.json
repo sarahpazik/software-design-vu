@@ -1,7 +1,7 @@
 {
   "time limit": 300,
   "start room": "Hilltop",
-  "end room" : "Imperial Palace in Vizima",
+  "end room" : "Imperial Palace",
   "rooms" : [
     {
       "name" : "Hilltop",
@@ -20,28 +20,60 @@
         }
       ],
       "connects to" : ["Village Outskirts", "Abandoned Village", "Castle Ruins"],
-      "script" : "You stand on a hilltop, from which you can see the nearby town of White Orchard, the ruins of an ancient castle, and a small group of houses that have been destroyed by some passing army."
+      "script" : "You stand on a hilltop, from which you can see the nearby town of White Orchard, the ruins of an ancient castle, and a small group of houses that have been destroyed by some passing army.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
     },
 
     {
       "name" : "Village Outskirts",
       "items" : [],
-      "connects to" : ["Hilltop", "Castle Ruins"],
-      "script" : "You are on a stretch of road heading in the direction of White Orchard. Just in front of you, there seems to be some sort of commotion..."
+      "connects to" : ["Hilltop", "White Orchard", "Castle Ruins"],
+      "script" : "You are on a stretch of road heading in the direction of White Orchard. Just in front of you, there seems to be some sort of commotion...",
+      "obstacle" : {
+        "item needed" : "silverSword",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : ["White Orchard", "Castle Ruins"],
+        "description" : "There's a huge winged beast tearing into a horse carcass on the road in front of you. It doesn't look very friendly...",
+        "clear message" : "You've slain the griffin and can now move freely through this area."
+      }
     },
 
     {
-      "name" : "Village of White Orchard",
+      "name" : "White Orchard",
       "items" : [],
       "connects to" : ["Village Outskirts", "Tavern"],
-      "script" : "You stand in the small, medieval village of White Orchard. You can see a tavern which seems well-frequented by the villagers."
+      "script" : "You stand in the small, medieval village of White Orchard. You can see a tavern which seems well-frequented by the villagers.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
     },
 
     {
       "name" : "Tavern",
       "items" : [],
       "connects to" : ["Village of White Orchard"],
-      "script" : "The tavern is dark and smells of smoke and spilled ale. A bartender behind the counter polishes a mug, while a group of peasants eye you suspiciously. This might be a good place to ask if Yennefer has passed through White Orchard."
+      "script" : "The tavern is dark and smells of smoke and spilled ale. A bartender behind the counter polishes a mug, while a group of peasants eye you suspiciously. This might be a good place to ask if Yennefer has passed through White Orchard.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
     },
 
     {
@@ -53,14 +85,50 @@
         }
       ],
       "connects to" : ["Hilltop"],
-      "script" : "You stand in the still-smoldering remains of a small settlement that was clearly \"visited\" by a passing army, likely the Nilfgaardian invaders."
+      "script" : "You stand in the still-smoldering remains of a small settlement that was clearly \"visited\" by a passing army, likely the Nilfgaardian invaders.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
     },
 
     {
-      "name" : "Imperial Palace in Vizima",
+      "name" : "Castle Ruins",
+      "items" : [
+        {
+          "name" : "silverDiagram",
+          "usage" : "This diagram seems to indicate how to create a more advanced witcher's silver sword."
+        }
+      ],
+      "connects to" : ["Village Outskirts"],
+      "script" : "You stand amidst the ruins of a small keep, the only remnant of some long-forgotten lord.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+
+    {
+      "name" : "Imperial Palace",
       "items" : [],
-      "connects to" : ["Village of White Orchard"],
-      "script" : "You have reunited with Yennefer and fled from the Wild Hunt to the seat of the Nilfgaardian invasion in the captured city of Vizima. Emperor Emyhr var Emreis, the White Flame Dancing on the Graves of His Foes, demands your presence for an audience."
+      "connects to" : ["White Orchard"],
+      "script" : "You have reunited with Yennefer and fled from the Wild Hunt to the seat of the Nilfgaardian invasion in the captured city of Vizima. Emperor Emyhr var Emreis demands your presence for an audience.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
     }
 
   ]

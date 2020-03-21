@@ -155,11 +155,31 @@ public class Main {
                     JSONArray nextRoomsJson = room.getJSONArray("connects to");
                     String[] nextRooms = new String[nextRoomsJson.length()];
 
+                    JSONObject obstacleObj = room.getJSONObject("obstacle");
+
+                    String itemNeeded = obstacleObj.getString("item needed");
+                    String itemName = obstacleObj.getString("item dropped name");
+                    String usage = obstacleObj.getString("item dropped usage");
+
+                    Item itemDropped = new Item(itemName, name, usage);
+
+                    JSONArray roomsBlockedJson = obstacleObj.getJSONArray("rooms blocked");
+                    String[] roomsBlocked = new String[roomsBlockedJson.length()];
+                    for (int m = 0; m < roomsBlockedJson.length(); m++) {
+                        String nextName = roomsBlockedJson.getString(m);
+                        roomsBlocked[m] = nextName;
+                    }
+
+                    String exitBlockedMessage = obstacleObj.getString("description");
+                    String clearMessage = obstacleObj.getString("clear message");
+                    Obstacle obstacle = new Obstacle(itemNeeded, itemDropped, name, roomsBlocked, exitBlockedMessage,
+                            clearMessage);
+
                     for (int k = 0; k < nextRoomsJson.length(); k++){
                         String nextName = nextRoomsJson.getString(k);
                         nextRooms[k] = nextName;
                     }
-                    roomMap.put(name, new Room(name, thisItemMap, nextRooms, script));
+                    roomMap.put(name, new Room(name, thisItemMap, nextRooms, obstacle, script));
                 }
 
                 beginGame(in);

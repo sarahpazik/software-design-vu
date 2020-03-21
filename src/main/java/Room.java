@@ -5,17 +5,23 @@ public class Room {
     private HashMap<String, Item> items;
     private String[] nextRooms;
     private String script;
+    private Obstacle obstacle;
 
-    public Room(String name, HashMap<String, Item> items, String[] nextRooms, String script) {
+    public Room(String name, HashMap<String, Item> items, String[] nextRooms, Obstacle obstacle, String script) {
         this.name = name;
         this.items = items;
         this.nextRooms = nextRooms;
+        this.obstacle = obstacle;
         this.script = script;
     }
 
     public String getRoomName(){
         return name;
     }
+
+    public boolean hasObstacle() { return (this.obstacle.getRoomsBlocked().length > 0); }
+
+    public Obstacle getObstacle() { return obstacle; }
 
     public String getScript(){
         return script;

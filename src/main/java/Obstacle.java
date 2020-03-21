@@ -1,32 +1,42 @@
-import java.util.*;
-
 public class Obstacle {
-    private Item itemNeeded;
+    private String itemNeeded;
     private Item itemDropped;
-    private Room roomIn;
+    private String location;
     private String[] roomsBlocked;
     private boolean cleared;
+    private String description;
     private String clearMessage;
 
-    public Obstacle(Item itemNeeded, Item itemDropped, Room roomIn, String[] roomsBlocked, String clearMessage) {
+    public Obstacle(String itemNeeded, Item itemDropped, String location, String[] roomsBlocked,
+                    String description, String clearMessage) {
         this.itemNeeded = itemNeeded;
         this.itemDropped = itemDropped;
-        this.roomIn = roomIn;
+        this.location = location;
         this.roomsBlocked = roomsBlocked;
         this.cleared = false;
+        this.description = description;
         this.clearMessage = clearMessage;
     }
 
     public void clearObstacle() {
-        if (this.dropsItem()) {
-            this.roomIn.addItemToRoom(this.itemDropped);
-        }
         this.cleared = true;
-        System.out.println(this.clearMessage);
+        System.out.println(Main.ANSI_BLUE + "\n" + this.clearMessage + "\n" + Main.ANSI_RESET);
     }
 
     public boolean dropsItem() {
-        if (this.itemDropped != null) { return true; }
-        else { return false; }
+        if (itemDropped.getNameFromItem().equals("")) { return false; }
+        else { return true; }
     }
+
+    public String getItemNeeded() { return itemNeeded; }
+
+    public Item getItemDropped() { return itemDropped; }
+
+    public String getLocation() { return location; }
+
+    public String[] getRoomsBlocked () { return roomsBlocked; }
+
+    public String getDescription() { return description; }
+
+    public boolean isCleared() { return cleared; }
 }
