@@ -28,6 +28,8 @@ public class Action {
 
             if (nextRoom == null) {
                 System.out.println(Main.ANSI_BLUE + "\nThe room name is invalid. Please ask for help.\n" + Main.ANSI_RESET);
+                // TODO: Check here whether current room has an Obstacle. If so, check if next room is in the array of
+                // TODO: blocked rooms AND if obstacle is cleared, do not move and print error message if so
             } else {
                 player.setCurrentRoom(nextRoom);
                 System.out.println(Main.ANSI_BLUE + "\nYou have moved to " + nextRoom.getRoomName() + ".\n" + player.getCurrentRoom().getScript() + "\n" + Main.ANSI_RESET);

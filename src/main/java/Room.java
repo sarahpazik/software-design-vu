@@ -25,6 +25,8 @@ public class Room {
 
     public void removeItemFromRoom(String itemName) { items.remove(itemName); }
 
+    public void addItemToRoom(Item thisItem) { items.put(thisItem.getNameFromItem(), thisItem); }
+
     public Room getNextRoomFromName(String roomName) {
         List<String> nextList = Arrays.asList(nextRooms);
         if (nextList.contains(roomName)){
