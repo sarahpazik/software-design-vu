@@ -1,8 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
@@ -10,20 +9,21 @@ import org.json.JSONObject;
 
 public class Main {
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_MAGENTA = "\u001b[35m";
-    public static final String ANSI_RED = "\u001b[31m";
+    static final String ANSI_RESET = "\u001B[0m";
+    static final String ANSI_BLUE = "\u001B[34m";
+    static final String ANSI_MAGENTA = "\u001b[35m";
+    private static final String ANSI_RED = "\u001b[31m";
 
-    public static JSONObject startRoom;
-    public static JSONObject endRoom;
+    private static JSONObject startRoom;
+    private static JSONObject endRoom;
 
-    public static HashMap<String, Room> roomMap = new HashMap<>();
-    public static HashMap<String, Item> itemMap = new HashMap<>();
+    static Map<String, Room> roomMap = new HashMap<>();
+    static Map<String, Item> itemMap = new HashMap<>();
 
-    public static String playerName;
+    private static String playerName;
 
-    private static void promptQuit(Player player) {
+    private static void promptQuit(Player player, JSONObject originalJSON) {
+
         System.out.println(ANSI_RED + "\nWould you like to save your place, and return later? Answer: yes / no. \n" + ANSI_RESET);
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String saveResponse;
@@ -34,21 +34,20 @@ public class Main {
                 System.out.println(ANSI_RED + "\nYou lose!\n" + ANSI_RESET);
                 System.exit(0);
             } else if (saveResponse.equals("yes")) {
-                JSONObject currentStatus = new JSONObject();
-                currentStatus.put("currentRoom", player.getCurrentRoom());
-                currentStatus.put("currentInventory", player.inventory);
 
-                JSONObject currentPlayer = new JSONObject();
-                currentPlayer.put("player", currentStatus);
+                JSONObject copyObj = new JSONObject(originalJSON, JSONObject.getNames(originalJSON));
 
-                JSONArray playerArray = new JSONArray();
-                playerArray.put(currentPlayer);
+                copyObj.put("currentRoom", player.getCurrentRoom().getRoomName());
+                copyObj.put("currentInventory", player.inventory.getStringInventory());
 
-                try (FileWriter file = new FileWriter("Amsterdam.json")) {
+                String fileName = playerName + ".json";
 
-                    file.write(playerArray.toString());
+                try (FileWriter file = new FileWriter(fileName)) {
+
+                    file.write(copyObj.toString());
                     file.flush();
 
+                    System.out.println(ANSI_RED + "\nNext time you want to play, use the file 'your_name.json'. \n" + ANSI_RESET);
                     System.out.println(ANSI_RED + "\nSee you later!\n" + ANSI_RESET);
                     System.exit(0);
 
@@ -64,6 +63,54 @@ public class Main {
 
     }
 
+    static void beginGame(BufferedReader in) {
+
+        System.out.println(ANSI_BLUE + "\nWhat is your name?\n" + ANSI_RESET);
+
+        try {
+            playerName = in.readLine();
+            System.out.println(ANSI_BLUE + "\n Welcome, " + playerName +". \n Let's begin. Your goal is to get to "
+                    + endRoom.getString("name") + ".\n You are currently located at " + startRoom.getString("name")
+                    + " and your inventory is currently empty.\n Type " + ANSI_MAGENTA + "'help'" +ANSI_BLUE + " if you ever need help.\n" + ANSI_RESET);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    static void whileGame(BufferedReader in, int timeLimitInt, JSONObject tomJsonObject) {
+
+        TimeLimit timeLimit = new TimeLimit(timeLimitInt, System.currentTimeMillis()/1000);
+        Inventory inventory = new Inventory(new ArrayList<Item>());
+        Player player = new Player(playerName,  inventory,roomMap.get(startRoom.getString("name")));
+
+        System.out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);
+
+        while(!player.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))
+                && timeLimit.getCurrentTime()<timeLimit.getTimeLimit()){
+            try {
+                String[] input2 = in.readLine().split("\\s+");
+                if(input2[0].equals("quit") && input2.length == 1) {
+                    promptQuit(player, tomJsonObject);
+                }
+                else {
+                    Action.doAction(input2, player);
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+            if(player.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))){
+                System.out.println(ANSI_BLUE + "\nCONGRATULATIONS, " + playerName +
+                        "! You made it to " + endRoom.getString("name") + "\n" + ANSI_RESET);
+            }
+
+            if(timeLimit.getCurrentTime() >= timeLimit.getTimeLimit()){
+                System.out.println(ANSI_BLUE + "\nSORRY, " + playerName +  ". You did not make it to "
+                        + endRoom.getString("name") + " in time.\n" + ANSI_RESET);
+            }
+        }
+    }
+
     public static void main (String[] args){
 
         System.out.println(ANSI_BLUE + "\n Welcome to the Text Adventure Game. \n Please enter the name of the json file you want to load. \n"
@@ -73,7 +120,7 @@ public class Main {
         try {
             String input = in.readLine();
             File jsonFile = new File(input);
-            int dotIndex = input.lastIndexOf(".");
+            int dotIndex = input.lastIndexOf('.');
             String fileType = input.substring(dotIndex+1);
             if (jsonFile.exists() && fileType.equals("json")){
                 String content = FileUtils.readFileToString(jsonFile, "utf-8");
@@ -115,42 +162,11 @@ public class Main {
                     roomMap.put(name, new Room(name, thisItemMap, nextRooms, script));
                 }
 
-                System.out.println(ANSI_BLUE + "\nWhat is your name?\n" + ANSI_RESET);
+                beginGame(in);
 
-                try {
-                    playerName = in.readLine();
-                    System.out.println(ANSI_BLUE + "\n Welcome, " + playerName +". \n Let's begin. Your goal is to get to "
-                            + endRoom.getString("name") + ".\n You are currently located at " + startRoom.getString("name")
-                            + " and your inventory is currently empty.\n Type " + ANSI_MAGENTA + "'help'" +ANSI_BLUE + " if you ever need help.\n" + ANSI_RESET);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+                whileGame(in, timeLimit, tomJsonObject);
 
-                TimeLimit timelimit1 = new TimeLimit(timeLimit, System.currentTimeMillis()/1000);
-                Inventory inventory1 = new Inventory(new ArrayList<Item>());
-                Player player1 = new Player(playerName,  inventory1,roomMap.get(startRoom.getString("name")));
-                System.out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);
-
-                while(!player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name")) && timelimit1.getCurrentTime()<timelimit1.getTimeLimit()){
-                    try {
-                        String[] input2 = in.readLine().split("\\s+");
-                        if(input2[0].equals("quit") && input2.length == 1) {
-                            promptQuit(player1);
-                        }
-                        else {
-                            Action.doAction(input2, player1);
-                        }
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                    if(player1.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))){
-                        System.out.println(ANSI_BLUE + "\nCONGRATULATIONS, " + playerName +  "! You made it to " + endRoom.getString("name") + "\n" + ANSI_RESET);
-                    }
-                }
-                if(timelimit1.getCurrentTime()>=timelimit1.getTimeLimit()){
-                    System.out.println(ANSI_BLUE + "\nSORRY, " + playerName +  ". You did not make it to " + endRoom.getString("name") + " in time.\n" + ANSI_RESET);
-                }
-            }else{
+            } else{
                 System.out.println(ANSI_BLUE + "\nNot a valid json file.\n" + ANSI_RESET);
             }
         } catch(Exception e) {

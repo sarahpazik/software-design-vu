@@ -13,6 +13,18 @@ public class Inventory {
 
     public void addToInventory(Item item) { this.items.add(item); }
 
+    public String getStringInventory() {
+        String playerInventory = "";
+
+        for (Item item : items){
+            playerInventory = item.getNameFromItem() + ", " + playerInventory;
+        }
+
+        int unnecessaryComma = playerInventory.lastIndexOf(",");
+
+        return playerInventory.substring(0, unnecessaryComma);
+    }
+
     public static String printInventory(ArrayList<Item> playerItems) {
         String playerInventory = "";
         String playerInventoryFinal;
