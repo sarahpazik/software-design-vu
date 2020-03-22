@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ public class Main {
                 JSONObject copyObj = new JSONObject(originalJSON, JSONObject.getNames(originalJSON));
 
                 copyObj.put("currentRoom", player.getCurrentRoom().getRoomName());
-                copyObj.put("currentInventory", player.inventory.getStringInventory());
+                copyObj.put("currentInventory", player.getInventory().getStringInventory());
 
                 String fileName = playerName + ".json";
 
@@ -80,21 +81,22 @@ public class Main {
 
     static void whileGame(BufferedReader in, int timeLimitInt, JSONObject tomJsonObject) {
 
-        TimeLimit timeLimit = new TimeLimit(timeLimitInt, System.currentTimeMillis()/1000);
         Inventory inventory = new Inventory(new ArrayList<Item>());
-        Player player = new Player(playerName,  inventory,roomMap.get(startRoom.getString("name")));
+        Player player = new RegularPlayer(playerName,  inventory,roomMap.get(startRoom.getString("name")), new TimeLimit(timeLimitInt, System.currentTimeMillis()/1000));
 
         System.out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);
 
         while(!player.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))
-                && timeLimit.getCurrentTime()<timeLimit.getTimeLimit()){
+                && player.checkTime()){
             try {
                 String[] input2 = in.readLine().split("\\s+");
                 if(input2[0].equals("quit") && input2.length == 1) {
                     promptQuit(player, tomJsonObject);
                 }
                 else {
-                    Action.doAction(input2, player);
+                    AtomicReference<Player> ref = new AtomicReference<Player>(player);
+                    Action.doAction(input2, ref);
+                    player = ref.get();
                 }
             } catch(Exception e){
                 e.printStackTrace();
@@ -104,7 +106,7 @@ public class Main {
                         "! You made it to " + endRoom.getString("name") + "\n" + ANSI_RESET);
             }
 
-            if(timeLimit.getCurrentTime() >= timeLimit.getTimeLimit()){
+            if(!player.checkTime()){
                 System.out.println(ANSI_BLUE + "\nSORRY, " + playerName +  ". You did not make it to "
                         + endRoom.getString("name") + " in time.\n" + ANSI_RESET);
             }

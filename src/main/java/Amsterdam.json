@@ -1,5 +1,5 @@
 {
-  "time limit": 300,
+  "time limit": 20,
   "start room": "Central Station",
   "end room" : "The Airplane",
   "rooms" : [
@@ -9,6 +9,11 @@
         {
           "name" : "ovChipkaart",
           "usage" : "The ovChipkaart is used to get in and out of the metro"
+
+        },
+        {
+          "name" : "Broken Clock",
+          "usage" : "???"
 
         }
       ],

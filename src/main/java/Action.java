@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Action {
     private String commandName;
@@ -57,24 +58,34 @@ public class Action {
         }
     }
 
-    private static void pick(String[] command, Player player){
+    private static void pick(String[] command, AtomicReference<Player> playerRef){
         if (command[1].equals("up")) {
+            Player player = playerRef.get();
             Room currentRoom = player.getCurrentRoom();
 
             if (command.length < 3) {
                 System.out.println(Main.ANSI_BLUE + "\nYou cannot pick up nothing.\n" + Main.ANSI_RESET);
             }
 
-            String itemName = command[2];
+            String itemName = "";
+            for(int i = 2; i < command.length; i++) {
+                if (i > 2)
+                    itemName += " ";
+                itemName += command[i];
+            }
+
             Item item = currentRoom.getItemFromName(itemName);
             if (item == null) {
                 System.out.println(Main.ANSI_BLUE + "\nThe item name is invalid. Please ask for help.\n" + Main.ANSI_RESET);
             } else {
-                player.inventory.addToInventory(item);
+                player.getInventory().addToInventory(item);
                 currentRoom.removeItemFromRoom(itemName);
                 System.out.println(Main.ANSI_BLUE + "\nYou have picked up " + itemName + "." + Main.ANSI_RESET);
-                System.out.println(Main.ANSI_BLUE + Inventory.printInventory(player.inventory.getInventory())
+                System.out.println(Main.ANSI_BLUE + Inventory.printInventory(player.getInventory().getInventory())
                         + ".\n" + Main.ANSI_RESET);
+                if(itemName.equals("Broken Clock")){
+                    playerRef.set(new TimeDecoratedPlayer(player));
+                }
             }
 
         } else {
@@ -100,11 +111,11 @@ public class Action {
     }
 
     private static void help(String[] command, Player player){
-        ArrayList<Item> playerItems = player.inventory.getInventory();
+        ArrayList<Item> playerItems = player.getInventory().getInventory();
         String playerInventory = "";
         String playerInventoryFinal;
         if (playerItems.size() != 0){
-            playerInventoryFinal = Inventory.printInventory(player.inventory.getInventory());
+            playerInventoryFinal = Inventory.printInventory(player.getInventory().getInventory());
         } else {
             playerInventoryFinal = "Your current inventory is empty";
         }
@@ -151,7 +162,7 @@ public class Action {
     }
 
     private static void chat(String[] command, Player player) {
-        if (player.isChatting)
+        if (player.isChatting())
         {
             System.out.println(Main.ANSI_BLUE + "\nYou are already chatting! \n" + Main.ANSI_RESET);
         }
@@ -224,31 +235,31 @@ public class Action {
         }
     }
 
-    public static void doAction(String[] command, Player player) {
+    public static void doAction(String[] command, AtomicReference<Player> playerRef) {
         Action result;
         String keyword = command[0];
 
         switch (keyword) {
             case "move":
-                move(command, player);
+                move(command, playerRef.get());
                 break;
             case "pick":
-                pick(command, player);
+                pick(command, playerRef);
                 break;
             case "inspect":
-                inspect(command, player);
+                inspect(command, playerRef.get());
                 break;
             case "help":
-                help(command, player);
+                help(command, playerRef.get());
                 break;
             case "look":
-                look(command, player);
+                look(command, playerRef.get());
                 break;
             case "chat":
-                chat(command, player);
+                chat(command, playerRef.get());
                 break;
             case "use":
-                use(command, player);
+                use(command, playerRef.get());
                 break;
             default:
                 System.out.println(Main.ANSI_BLUE + "\nThe command name is invalid. Please ask for help.\n" + Main.ANSI_RESET);
