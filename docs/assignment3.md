@@ -18,6 +18,7 @@ Provide a bullet list summarizing all the changes you performed in Assignment 2 
 * Added the chat room feature (Added ChatClient class) so that you can communicate with other players (use command "chat")
 * Implemented time limit feature to make the game slightly more complex
 * Added obstacles to the game using the Obstacle class to make the game more complex
+* Implemented persistence to allow a user to save their progress 
 
 Maximum number of words for this section: 1000
 
@@ -30,7 +31,7 @@ For each application of any design pattern you have to provide a table conformin
 
 | ID  | DP1  |
 |---|---|
-| **Design pattern**  | Name of the applied pattern |
+| **Design pattern**  | Decorator |
 | **Problem**  | A paragraph describing the problem you want to solve |
 | **Solution**  | A paragraph describing why with the application of the design pattern you solve the identified problem |
 | **Intended use**  | A paragraph describing how you intend to use at run-time the objects involved in the applied design patterns (you can refer to small sequence diagrams here if you want to detail how the involved parties interact at run-time |
@@ -46,13 +47,13 @@ This chapter contains the specification of the UML class diagram of your system,
 
 `Figure representing the UML class diagram`
 
-For each class (and data type) in the class diagram you have to provide a paragraph providing the following information:
-- Brief description about what it represents
-- Brief description of the meaning of each attribute
-- Brief description of the meaning of each operation
-- Brief description of the meaning of each association involving it (each association can be described only once in this deliverable)
+The **Player** interface represents the user, i.e. the person moving through the game. The *getCurrentRoom* method returns the player's current location, and the *setCurrentRoom* method changes the player's location to the given room. The player class is associated with the Room class because it needs to be able to access the player's current location. It is also associated with the Item class, because it needs to keep track of the player's inventory. The association with the Action class is because a Player needs to be able to perform actions in order to change their location or inventory. 
 
-The **Player** class represents the user, i.e. the person moving through the game. Their *name* is a string object that contains whatever name the user chooses. Their *inventory* is a list of Item objects, containing any objects that were picked up but not yet put down. This way, we keep a list of all items the player can use at a given time. The *currentLocation* is a Room object that indicates which room the player is in at a given time. *IsChatting* is a boolean that indicates whether the user has stated using the chat room feature or not. The *getCurrentRoom* method returns the player's current location, and the *setCurrentRoom* method changes the player's location to the given room. The player class is associated with the Room class because it needs to be able to access the player's current location. It is also associated with the Item class, because it needs to keep track of the player's inventory. The association with the Action class is because a Player needs to be able to perform actions in order to change their location or inventory. 
+The **RegularPlayer** class represents a regular player who has not yet found the item needed to get rid of the time limit. Their *name* is a string object that contains whatever name the user chooses. Their *inventory* is a list of Item objects, containing any objects that were picked up but not yet put down. This way, we keep a list of all items the player can use at a given time. The *currentLocation* is a Room object that indicates which room the player is in at a given time. *IsChatting* is a boolean that indicates whether the user has stated using the chat room feature or not. This class implements all of the methods from the Player interface because it is one of two types of players in the game.
+
+The **PlayerDecorator** class is what we used to implement the Decorator Pattern. It also implements the Player interface, because TimeDecoratedPlayer, which extends PlayerDecorator, is the other type of player in our game.
+
+The **TimeDecoratedPlayer** class represents a player who has found the broken clock which gets rid of the time limit in the game. This player now has unlimited time to reach the goal location. It has the same attributes and methods as RegularPlayer. 
 
 The **Action** class represents all of the actions and movements a user can perform in the game. The *commandName* field is a string that the user inputs in order to perform an action. The *item* is the Item object that the action is being used on. The *room* is the Room object that the item is located in. *Move*, *pick*, *inspect*, *help*, *look*, and *chat* all perform their respective actions. The *doAction* method performs the action specified by CommandName, by calling the relevant Action method. The Action class is connected to the Item class because each action needs to be performed on a specific item. The same holds for the Obstacle class; each obstacle will have actions that can be used on them. It is also associated with the ChatClient class, because the chat method needs access to the functionality given in the ChatClient class.
 
