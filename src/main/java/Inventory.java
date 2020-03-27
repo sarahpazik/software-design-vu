@@ -37,4 +37,9 @@ public class Inventory {
 
         return playerInventoryFinal;
     }
+
+    public boolean inventoryIsEmpty() {
+        if (items.isEmpty()) return true;
+        else return false;
+    }
 }

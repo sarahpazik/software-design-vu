@@ -2,6 +2,8 @@
   "time limit": 20,
   "start room": "Central Station",
   "end room" : "The Airplane",
+  "current room": "",
+  "current inventory" : [],
   "rooms" : [
     {
       "name" : "Central Station",

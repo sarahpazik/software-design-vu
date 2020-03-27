@@ -38,8 +38,16 @@ public class Main {
 
                 JSONObject copyObj = new JSONObject(originalJSON, JSONObject.getNames(originalJSON));
 
-                copyObj.put("currentRoom", player.getCurrentRoom().getRoomName());
-                copyObj.put("currentInventory", player.getInventory().getStringInventory());
+                copyObj.put("current room", player.getCurrentRoom().getRoomName());
+
+                if (!player.getInventory().inventoryIsEmpty()) {
+                    copyObj.put("current inventory", player.getInventory().getStringInventory());
+                } else {
+                    copyObj.put("current inventory", "");
+                }
+
+                copyObj.put("player name", playerName);
+
 
                 String fileName = playerName + ".json";
 
@@ -70,6 +78,7 @@ public class Main {
 
         try {
             playerName = in.readLine();
+            //FIXME to print out correct inventory upon reload
             System.out.println(ANSI_BLUE + "\n Welcome, " + playerName +". \n Let's begin. Your goal is to get to "
                     + endRoom.getString("name") + ".\n You are currently located at " + startRoom.getString("name")
                     + " and your inventory is currently empty.\n Type " + ANSI_MAGENTA + "'help'" +ANSI_BLUE + " if you ever need help.\n" + ANSI_RESET);
@@ -130,13 +139,17 @@ public class Main {
 
                 String start = tomJsonObject.getString("start room");
                 String end = tomJsonObject.getString("end room");
+                String current = tomJsonObject.getString("current room");
                 JSONArray rooms = tomJsonObject.getJSONArray("rooms");
                 int timeLimit = tomJsonObject.getInt("time limit");
 
                 for (int i = 0; i < rooms.length(); i++){
                     JSONObject room = rooms.getJSONObject(i);
                     String name = room.getString("name");
-                    if (name.equals(start)){
+                    if (name.equals(current) && !current.equals("")) {
+                        startRoom = room;
+                    }
+                    else if (name.equals(start) && startRoom == null){
                         startRoom = room;
                     } else if (name.equals(end)){
                         endRoom = room;
@@ -183,6 +196,8 @@ public class Main {
                     }
                     roomMap.put(name, new Room(name, thisItemMap, nextRooms, obstacle, script));
                 }
+
+                JSONArray inventory = tomJsonObject.getJSONArray("current inventory");
 
                 beginGame(in);
 
