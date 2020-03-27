@@ -13,12 +13,13 @@ public class Look implements Command {
     @Override
     public void execute(){
         if (command[1].equals("around") && command.length == 2){
-            String[] roomOptions = player.getCurrentRoom().getNextRooms();
+            Room currentRoom = player.getCurrentRoom();
+            String[] roomOptions = currentRoom.getNextRooms();
             String roomOptionsString = roomOptions[0];
             for (int i = 1; i < roomOptions.length; i++){
                 roomOptionsString = roomOptions[i] + ", " + roomOptionsString;
             }
-            HashMap<String, Item> roomItems = player.getCurrentRoom().getItems();
+            HashMap<String, Item> roomItems = currentRoom.getItems();
             String itemOptionsString = "";
             String itemOptionsFinalString;
             if (roomItems.isEmpty()){
@@ -34,8 +35,8 @@ public class Look implements Command {
                     "in this room: " + itemOptionsFinalString + ".\n" + Main.ANSI_RESET);
 
             // If there's an uncleared obstacle in the room, also print its description
-            if (player.getCurrentRoom().hasObstacle() && (!(player.getCurrentRoom().getObstacle().isCleared()))) {
-                System.out.println(Main.ANSI_BLUE + "\n" + player.getCurrentRoom().getObstacle().getDescription() +
+            if (currentRoom.hasObstacle() && (!(currentRoom.getObstacle().isCleared()))) {
+                System.out.println(Main.ANSI_BLUE + currentRoom.getObstacle().getDescription() +
                         " You may want to (or have to) use some sort of item here before moving on.\n" +
                         Main.ANSI_RESET);
             }

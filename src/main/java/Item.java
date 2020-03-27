@@ -13,17 +13,11 @@ public class Item {
         this.used = false;
     }
 
-    public String getNameFromItem(){
-        return this.name;
-    }
+    public String getNameFromItem() { return name; }
 
-    public void holdItem(boolean hold) {
-        this.held = hold;
-    }
-
-    public void useItem(boolean use) {
-        this.used = use;
-    }
+    public void holdItem(boolean hold) { held = hold; }
 
     public String getUsage() { return usage; }
+
+    public boolean isHeld() { return held; }
 }

@@ -9,16 +9,26 @@ public class Use implements Command {
         this.player = playerRef.get();
     }
     @Override
-    public void execute(){
+    public void execute() {
         if (command.length == 2) {
             String itemName = command[1];
 
             Item item = Main.itemMap.get(itemName);
+            // Hack to escape if item is not held because returning breaks other things
+            boolean skipExecute = false;
 
             if (item == null) {
-                System.out.println(Main.ANSI_BLUE + "\nThat item does not exist.\n" + Main.ANSI_RESET);
+                System.out.println(Main.ANSI_BLUE + "\nThat item does not exist; check your spelling.\n"
+                        + Main.ANSI_RESET);
+                skipExecute = true;
             }
 
+            if (!player.getInventory().isInInventory(itemName)) {
+                System.out.println(Main.ANSI_BLUE + "\nThat item is not in your inventory.\n" + Main.ANSI_RESET);
+                skipExecute = true;
+            }
+
+            if (!skipExecute) {
             Room playerLocation = player.getCurrentRoom();
             Obstacle currentObstacle = playerLocation.getObstacle();
 
@@ -40,14 +50,18 @@ public class Use implements Command {
             // Command has passed all checks, clear the obstacle
             else {
                 if (currentObstacle.dropsItem()) {
-                    playerLocation.addItemToRoom(currentObstacle.getItemDropped());
+                    Item itemDropped = currentObstacle.getItemDropped();
+                    playerLocation.addItemToRoom(itemDropped);
+                    Main.itemMap.put(itemDropped.getNameFromItem(), itemDropped);
                 }
                 currentObstacle.clearObstacle();
             }
         }
+    }
         else {
-            System.out.println(Main.ANSI_BLUE + "\nType " + Main.ANSI_MAGENTA + "'use <item>'" + Main.ANSI_BLUE +
-                    " to use an item.\n" + Main.ANSI_RESET);
-        }
+                System.out.println(Main.ANSI_BLUE + "\nType " + Main.ANSI_MAGENTA + "'use <item>'" + Main.ANSI_BLUE +
+                        " to use an item.\n" + Main.ANSI_RESET);
+            }
+
     }
 }

@@ -37,4 +37,13 @@ public class Inventory {
 
         return playerInventoryFinal;
     }
+
+    public boolean isInInventory(String itemName) {
+        for (Item item : items) {
+            if (item.getNameFromItem().equals(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
