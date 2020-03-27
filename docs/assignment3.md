@@ -38,6 +38,15 @@ For each application of any design pattern you have to provide a table conformin
 | **Constraints**  | Any additional constraints that the application of the design pattern is imposing, if any |
 | **Additional remarks**  | Optional, only if needed |
 
+| ID  | DP2  |
+|---|---|
+| **Design pattern**  | Command |
+| **Problem**  | A paragraph describing the problem you want to solve |
+| **Solution**  | A paragraph describing why with the application of the design pattern you solve the identified problem |
+| **Intended use**  | A paragraph describing how you intend to use at run-time the objects involved in the applied design patterns (you can refer to small sequence diagrams here if you want to detail how the involved parties interact at run-time |
+| **Constraints**  | Any additional constraints that the application of the design pattern is imposing, if any |
+| **Additional remarks**  | Optional, only if needed |
+
 Maximum number of words for this section: 2000
 
 ## Class diagram									
@@ -55,7 +64,11 @@ The **PlayerDecorator** class is what we used to implement the Decorator Pattern
 
 The **TimeDecoratedPlayer** class represents a player who has found the broken clock which gets rid of the time limit in the game. This player now has unlimited time to reach the goal location. It has the same attributes and methods as RegularPlayer. 
 
-The **Action** class represents all of the actions and movements a user can perform in the game. The *commandName* field is a string that the user inputs in order to perform an action. The *item* is the Item object that the action is being used on. The *room* is the Room object that the item is located in. *Move*, *pick*, *inspect*, *help*, *look*, and *chat* all perform their respective actions. The *doAction* method performs the action specified by CommandName, by calling the relevant Action method. The Action class is connected to the Item class because each action needs to be performed on a specific item. The same holds for the Obstacle class; each obstacle will have actions that can be used on them. It is also associated with the ChatClient class, because the chat method needs access to the functionality given in the ChatClient class.
+The **Action** class represents all of the actions and movements a user can perform in the game. The *commandName* field is a string that the user inputs in order to perform an action. The *item* is the Item object that the action is being used on. The *room* is the Room object that the item is located in. The Action class is connected to the Item class because each action needs to be performed on a specific item. The same holds for the Obstacle class; each obstacle will have actions that can be used on them. It is also associated with the ChatClient class, because the chat method needs access to the functionality given in the ChatClient class.
+
+The **Command** interface has an execute() function that is implemented by each of the following command classes.
+
+The **Move**, **Pick**, **Use**, **Inspect**, **Help**, **Look**, and **Chat** classes all implement the Command class and override the execute method, which is then used in the Action class when executing each command. 
 
 The **Item** class represents the items in the game that can be used by the player. The *name* field holds the name of the item as a string, the *location* field holds the Room that the item is in, and *usage* holds a string that explains what the item is used for. The *held* field represents whether or not the item is currently in the user's inventory. The *used* field represents whether or not the user has already used the item. The *getNameFromItem* method returns the name of the item and the Usage method returns the item's purpose, i.e. how the player can use it. *HoldItem* changes the item's state to held, and the *useItem* method similarly changes the used state to used. It is connected to the Room class because each room can have an unlimited number of items, and the Room class needs to access that information.
 
