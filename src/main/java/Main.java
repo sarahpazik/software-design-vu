@@ -24,7 +24,7 @@ public class Main {
 
     private static String playerName;
 
-    private static void promptQuit(Player player, JSONObject originalJSON) {
+    private static void promptQuit(Player player, JSONObject originalJSON, TimeLimit timeLimit) {
         out.println(ANSI_RED + "\nWould you like to save your place, and return later? Answer: yes / no. \n" + ANSI_RESET);
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String saveResponse;
@@ -47,6 +47,7 @@ public class Main {
 
                 copyObj.put("player name", playerName);
                 copyObj.put("current inventory", inventoryArray);
+                copyObj.put("time limit", timeLimit.getTimeLimit() - timeLimit.getCurrentTime());
 
                 String fileName = playerName + ".json";
 
@@ -95,7 +96,8 @@ public class Main {
 
     private static void whileGame(BufferedReader in, int timeLimitInt, JSONObject tomJsonObject) {
         Inventory inventory = new Inventory(new ArrayList<>());
-        Player player = new RegularPlayer(playerName,  inventory,roomMap.get(startRoom.getString("name")), new TimeLimit(timeLimitInt, currentTimeMillis()/1000));
+        TimeLimit timeLimit = new TimeLimit(timeLimitInt, currentTimeMillis()/1000);
+        Player player = new RegularPlayer(playerName,  inventory,roomMap.get(startRoom.getString("name")), timeLimit);
 
         out.println(ANSI_BLUE + "\n" + startRoom.getString("script")  + "\n" + ANSI_RESET);
 
@@ -104,7 +106,7 @@ public class Main {
             try {
                 String[] input2 = in.readLine().split("\\s+");
                 if(input2[0].equals("quit") && input2.length == 1) {
-                    promptQuit(player, tomJsonObject);
+                    promptQuit(player, tomJsonObject, timeLimit);
                 }
                 else {
                     AtomicReference<Player> ref = new AtomicReference<>(player);
@@ -114,12 +116,12 @@ public class Main {
             } catch(Exception e){
                 e.printStackTrace();
             }
-            if(player.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))){
+            if(player.getCurrentRoom().getRoomName().equals(endRoom.getString("name"))) {
                 out.println(ANSI_BLUE + "\nCONGRATULATIONS, " + playerName +
                         "! You made it to " + endRoom.getString("name") + "\n" + ANSI_RESET);
             }
 
-            if(!player.checkTime()){
+            if(!player.checkTime()) {
                 out.println(ANSI_BLUE + "\nSORRY, " + playerName +  ". You did not make it to "
                         + endRoom.getString("name") + " in time.\n" + ANSI_RESET);
             }
