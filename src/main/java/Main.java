@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.io.FileUtils;
@@ -78,10 +76,10 @@ public class Main {
 
         try {
             playerName = in.readLine();
-            //FIXME to print out correct inventory upon reload
             System.out.println(ANSI_BLUE + "\n Welcome, " + playerName +". \n Let's begin. Your goal is to get to "
                     + endRoom.getString("name") + ".\n You are currently located at " + startRoom.getString("name")
-                    + " and your inventory is currently empty.\n Type " + ANSI_MAGENTA + "'help'" +ANSI_BLUE + " if you ever need help." + ANSI_RESET);
+                    + "." + Inventory.printInventory(startInventory) + ".\n Type "
+                    + ANSI_MAGENTA + "'help'" +ANSI_BLUE + " if you ever need help." + ANSI_RESET);
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -144,9 +142,11 @@ public class Main {
                 int timeLimit = tomJsonObject.getInt("time limit");
 
                 JSONArray inventory = tomJsonObject.getJSONArray("current inventory");
+                Set<String> inventoryNameSet = new HashSet<>();
 
                 for (int i = 0; i < inventory.length(); i++) {
-
+                    String itemName = inventory.getString(i);
+                    inventoryNameSet.add(itemName);
                 }
 
                 for (int i = 0; i < rooms.length(); i++){
@@ -154,8 +154,7 @@ public class Main {
                     String name = room.getString("name");
                     if (name.equals(current) && !current.equals("")) {
                         startRoom = room;
-                    }
-                    else if (name.equals(start) && startRoom == null){
+                    } else if (name.equals(start) && startRoom == null){
                         startRoom = room;
                     } else if (name.equals(end)){
                         endRoom = room;
@@ -166,11 +165,19 @@ public class Main {
                     HashMap<String, Item> thisItemMap = new HashMap<>();
 
                     for (int j = 0; j < items.length(); j++){
-                        JSONObject item = items.getJSONObject(j);
-                        String itemName = item.getString("name");
-                        String usage = item.getString("usage");
-                        thisItemMap.put(itemName, new Item(itemName, name, usage));
+                        JSONObject itemObject = items.getJSONObject(j);
+                        String itemName = itemObject.getString("name");
+                        String usage = itemObject.getString("usage");
+                        Item item = new Item(itemName, name, usage);
                         itemMap.put(itemName, new Item(itemName, name, usage));
+
+                        if (inventoryNameSet.contains(itemName)) {
+                            item.holdItem(true);
+                            startInventory.add(item);
+                        } else {
+                            thisItemMap.put(itemName, item);
+                        }
+
                     }
 
                     JSONArray nextRoomsJson = room.getJSONArray("connects to");
