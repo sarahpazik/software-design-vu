@@ -42,4 +42,14 @@ public class Inventory {
         if (items.isEmpty()) return true;
         else return false;
     }
+
+    public boolean isInInventory(String itemName) {
+        for (Item item : items) {
+            if (item.getNameFromItem().equals(itemName)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
 }

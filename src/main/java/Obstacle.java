@@ -19,7 +19,7 @@ public class Obstacle {
     }
 
     public void clearObstacle() {
-        this.cleared = true;
+        cleared = true;
         System.out.println(Main.ANSI_BLUE + "\n" + this.clearMessage + "\n" + Main.ANSI_RESET);
     }
 
@@ -39,4 +39,13 @@ public class Obstacle {
     public String getDescription() { return description; }
 
     public boolean isCleared() { return cleared; }
+
+    public boolean blocksRooms() {
+        if (roomsBlocked.length > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

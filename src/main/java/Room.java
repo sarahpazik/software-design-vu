@@ -19,7 +19,7 @@ public class Room {
         return name;
     }
 
-    public boolean hasObstacle() { return (this.obstacle.getRoomsBlocked().length > 0); }
+    public boolean hasObstacle() { return (this.obstacle.getDescription() != ""); }
 
     public Obstacle getObstacle() { return obstacle; }
 

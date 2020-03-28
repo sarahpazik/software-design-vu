@@ -29,24 +29,32 @@ public class Move implements Command {
             }
             else if (currentRoom.hasObstacle()) {
                 Obstacle currentObstacle = currentRoom.getObstacle();
-                if (!(currentObstacle.isCleared())) {
+                if ((!currentObstacle.isCleared()) && currentObstacle.blocksRooms()) {
                     String[] blockedRooms = currentObstacle.getRoomsBlocked();
+                    boolean destinationBlocked = false;
                     for (int n = 0; n < currentRoom.getNextRooms().length - 1; n++) {
                         if (wholeName.equals(blockedRooms[n])) {
-                            System.out.println(Main.ANSI_BLUE + currentObstacle.getDescription() + "You won't be " +
-                                    "able to go this way until you deal with the obstacle.");
+                            System.out.println(Main.ANSI_BLUE + "\n" + currentObstacle.getDescription() + " You won't be " +
+                                    "able to go this way until you deal with the obstacle.\n" + Main.ANSI_RESET);
+                            destinationBlocked = true;
                         }
+                    }
+                    if (!destinationBlocked) {
+                        player.setCurrentRoom(nextRoom);
+                        System.out.println(Main.ANSI_BLUE + "\nYou have moved to " + nextRoom.getRoomName() + ".\n" +
+                                nextRoom.getScript() + "\n" + Main.ANSI_RESET);
                     }
                 }
                 else {
                     player.setCurrentRoom(nextRoom);
                     System.out.println(Main.ANSI_BLUE + "\nYou have moved to " + nextRoom.getRoomName() + ".\n" +
-                            player.getCurrentRoom().getScript() + "\n" + Main.ANSI_RESET);
+                            nextRoom.getScript() + "\n" + Main.ANSI_RESET);
                 }
-            } else {
+            }
+            else {
                 player.setCurrentRoom(nextRoom);
                 System.out.println(Main.ANSI_BLUE + "\nYou have moved to " + nextRoom.getRoomName() + ".\n" +
-                        player.getCurrentRoom().getScript() + "\n" + Main.ANSI_RESET);
+                        nextRoom.getScript() + "\n" + Main.ANSI_RESET);
             }
         }
         else {
