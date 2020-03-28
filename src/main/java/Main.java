@@ -217,11 +217,22 @@ public class Main {
     }
 
     public static void main (String[] args){
-        out.println(ANSI_BLUE + "\n Welcome to the Text Adventure Game. \n Please enter the name of the json file you want to load. \n"
-        + ANSI_RESET);
+
+        out.println(ANSI_BLUE + "\n Welcome to the Text Adventure Game. \n Do you want to reload a previous game? Answer: " +
+                "yes / no. \n" + ANSI_RESET);
+
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
         try {
+            String input1 = in.readLine();
+
+            if (input1.equals("yes")) {
+                out.println(ANSI_BLUE + "\nPlease enter the name of the json file you want to load, in the form of " +
+                        "'your_name.json'.\n" + "\nFor example, if you entered your name as 'beth', type in beth.json.\n" +
+                        "\nCapitalization matters!\n" + ANSI_RESET);
+            } else {
+                out.println(ANSI_BLUE + "\nPlease enter the name of the json file you want to load.\n" + ANSI_RESET);
+            }
             String input = in.readLine();
             File jsonFile = new File(input);
             int dotIndex = input.lastIndexOf('.');
