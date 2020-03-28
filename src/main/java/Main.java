@@ -20,6 +20,7 @@ public class Main {
 
     static Map<String, Room> roomMap = new HashMap<>();
     static Map<String, Item> itemMap = new HashMap<>();
+    static ArrayList<Item> startInventory = new ArrayList<>();
 
     private static String playerName;
 
@@ -37,17 +38,16 @@ public class Main {
             } else if (saveResponse.equals("yes")) {
 
                 JSONObject copyObj = new JSONObject(originalJSON, JSONObject.getNames(originalJSON));
+                JSONArray inventoryArray = new JSONArray();
 
                 copyObj.put("current room", player.getCurrentRoom().getRoomName());
 
-                if (!player.getInventory().inventoryIsEmpty()) {
-                    copyObj.put("current inventory", player.getInventory().getStringInventory());
-                } else {
-                    copyObj.put("current inventory", "");
+                for (Item item : player.getInventory().getInventory()) {
+                    inventoryArray.put(item.getNameFromItem());
                 }
 
                 copyObj.put("player name", playerName);
-
+                copyObj.put("current inventory", inventoryArray);
 
                 String fileName = playerName + ".json";
 
@@ -143,6 +143,12 @@ public class Main {
                 JSONArray rooms = tomJsonObject.getJSONArray("rooms");
                 int timeLimit = tomJsonObject.getInt("time limit");
 
+                JSONArray inventory = tomJsonObject.getJSONArray("current inventory");
+
+                for (int i = 0; i < inventory.length(); i++) {
+
+                }
+
                 for (int i = 0; i < rooms.length(); i++){
                     JSONObject room = rooms.getJSONObject(i);
                     String name = room.getString("name");
@@ -196,8 +202,6 @@ public class Main {
                     }
                     roomMap.put(name, new Room(name, thisItemMap, nextRooms, obstacle, script));
                 }
-
-                JSONArray inventory = tomJsonObject.getJSONArray("current inventory");
 
                 beginGame(in);
 
