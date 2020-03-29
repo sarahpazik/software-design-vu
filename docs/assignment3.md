@@ -23,29 +23,27 @@ Provide a bullet list summarizing all the changes you performed in Assignment 2 
 Maximum number of words for this section: 1000
 
 ### Application of design patterns
-Author(s): `name of the team member(s) responsible for this section`
+Author(s): Sarah
 
-`Figure representing the UML class diagram in which all the applied design patterns are highlighted graphically (for example with a red rectangle/circle with a reference to the ID of the applied design pattern`
+![Class Diagram with design patterns labelled](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Copy%20of%20class%20diagram.png)
 
 For each application of any design pattern you have to provide a table conforming to the template below.
 
 | ID  | DP1  |
 |---|---|
 | **Design pattern**  | Decorator |
-| **Problem**  | A paragraph describing the problem you want to solve |
-| **Solution**  | A paragraph describing why with the application of the design pattern you solve the identified problem |
-| **Intended use**  | A paragraph describing how you intend to use at run-time the objects involved in the applied design patterns (you can refer to small sequence diagrams here if you want to detail how the involved parties interact at run-time |
-| **Constraints**  | Any additional constraints that the application of the design pattern is imposing, if any |
-| **Additional remarks**  | Optional, only if needed |
+| **Problem**  | We wanted a way to give the player the ability to get rid of the time limit in the game, but had no easy way to do so. |
+| **Solution**  | The decorator pattern allowed us to have a new decorated player so that when the player finds the broken clock in the game, they are turned into a decorated player who no longer has a time limit. |
+| **Intended use**  | We have a "broken clock" item in each game, and in our "pick" class/command, it checks whether the item picked up was the broken clock. If it was, the player's reference is changed to a TimeDecoratedPlayer rather than a RegularPlayer. This makes it so that the player's checkTime() method no longer counts down the time. |
+| **Constraints**  | N/A |
 
 | ID  | DP2  |
 |---|---|
 | **Design pattern**  | Command |
-| **Problem**  | A paragraph describing the problem you want to solve |
-| **Solution**  | A paragraph describing why with the application of the design pattern you solve the identified problem |
-| **Intended use**  | A paragraph describing how you intend to use at run-time the objects involved in the applied design patterns (you can refer to small sequence diagrams here if you want to detail how the involved parties interact at run-time |
-| **Constraints**  | Any additional constraints that the application of the design pattern is imposing, if any |
-| **Additional remarks**  | Optional, only if needed |
+| **Problem**  | We wanted a way to firstly separate our commands, since our Action class was getting complicated and hard to follow, and secondly be able to store the user's commands. |
+| **Solution**  | This design pattern allowed us to split each of the commands into separate classes, solving our first problem. It also allows us to store our commands like any other objects, solving the second problem. |
+| **Intended use**  | Now, when a user types a command, it calls the respective class's execute() method, which overrides the Command interface's execute() method. Now, each command can be stored as a separate object rather than just existing as a method in the Action class.  |
+| **Constraints**  | N/A |
 
 Maximum number of words for this section: 2000
 
@@ -54,7 +52,7 @@ Author(s): Sarah
 
 This chapter contains the specification of the UML class diagram of your system, together with a textual description of all its elements.
 
-`Figure representing the UML class diagram`
+![Class Diagram](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/class%20diagram%20(2).png)
 
 The **Player** interface represents the user, i.e. the person moving through the game. The *getCurrentRoom* method returns the player's current location, and the *setCurrentRoom* method changes the player's location to the given room. The player class is associated with the Room class because it needs to be able to access the player's current location. It is also associated with the Item class, because it needs to keep track of the player's inventory. The association with the Action class is because a Player needs to be able to perform actions in order to change their location or inventory. 
 
