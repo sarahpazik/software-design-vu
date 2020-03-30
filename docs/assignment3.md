@@ -2,7 +2,7 @@
 
 Maximum number of words for this document: 18000
 
-**IMPORTANT**: In this assignment you will fully model and impement your system. The idea is that you improve your UML models and Java implementation by (i) applying (a subset of) the studied design patterns and (ii) adding any relevant implementation-specific details (e.g., classes with “technical purposes” which are not part of the domain of the system). The goal here is to improve the system in terms of maintainability, readability, evolvability, etc.    
+**IMPORTANT**: In this assignment you will fully model and implement your system. The idea is that you improve your UML models and Java implementation by (i) applying (a subset of) the studied design patterns and (ii) adding any relevant implementation-specific details (e.g., classes with “technical purposes” which are not part of the domain of the system). The goal here is to improve the system in terms of maintainability, readability, evolvability, etc.    
 
 **Format**: establish formatting conventions when describing your models in this document. For example, you style the name of each class in bold, whereas the attributes, operations, and associations as underlined text, objects are in italic, etc.
 
@@ -18,7 +18,8 @@ Provide a bullet list summarizing all the changes you performed in Assignment 2 
 * Added the chat room feature (Added ChatClient class) so that you can communicate with other players (use command "chat")
 * Implemented time limit feature to make the game slightly more complex
 * Added obstacles to the game using the Obstacle class to make the game more complex
-* Implemented persistence to allow a user to save their progress 
+* Implemented persistence to allow a user to save their progress. The objective behind this feature is to allow users to begin a new game, play, exit the terminal, and then restart in the same place next time they open it. This feature gives users the choice of whether or not to save their current game state, including the items they hold, their current location, and their time within the time limit, and pick up where they left off the next time they want to play. 
+
 
 Maximum number of words for this section: 1000
 
@@ -101,7 +102,7 @@ This chapter is composed of a UML object diagram of your system, together with a
 Maximum number of words for this section: 1000
 
 ## State machine diagrams									
-Author(s): `name of the team member(s) responsible for this section`
+Author(s): Elizabeth, Gemma
 
 This chapter contains the specification of at least 2 UML state machines of your system, together with a textual description of all their elements. Also, remember that classes the describe only data structures (e.g., Coordinate, Position) do not need to have an associated state machine since they can be seen as simple "data containers" without behaviour (they have only stateless objects).
 
@@ -129,7 +130,7 @@ The goal of your sequence diagrams is both descriptive and prescriptive, so put 
 Maximum number of words for this section: 4000
 
 ## Implementation									
-Author(s): `name of the team member(s) responsible for this section`
+Author(s): Elizabeth 
 
 In this chapter you will describe the following aspects of your project:
 - the strategy that you followed when moving from the UML models to the implementation code;
@@ -139,6 +140,8 @@ In this chapter you will describe the following aspects of your project:
 - the 30-seconds video showing the execution of your system (you can embed the video directly in your md file on GitHub).
 
 IMPORTANT: remember that your implementation must be consistent with your UML models. Also, your implementation must run without the need from any other external software or tool. Failing to meet this requirement means 0 points for the implementation part of your project.
+
+In order to implement persistence, the JSON file was primarily used for saving data. When a user types the command “quit”, they are asked whether or not they want to save their place. If they answer yes, their current game state is saved to a new JSON file entitled ‘<your_name>.json’. This JSON file contains all of the information in the initial file, plus the player’s current location, the items currently in their inventory as a JSONArray, name, and current time. Next time they want to play, they are asked if they want to load a previous game. If yes, they are prompted to enter this JSON file, and resume. Once this command is parsed, the game loads in their current location as the new start room, rather than the initial start room, re-initializes their inventory with their current items, and restarts the clock against the time limit based on the time they already spent in the game.
 
 Maximum number of words for this section: 2000
 
