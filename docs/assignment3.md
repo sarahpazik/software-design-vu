@@ -111,6 +111,8 @@ For each state machine you have to provide:
 
 The goal of your state machine diagrams is both descriptive and prescriptive, so put the needed level of detail here, finding the right trade-off between understandability of the models and their precision.
 
+![Player State Machine with Persistence](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Player%20State%20Machine%20(1).png)
+
 Maximum number of words for this section: 4000
 
 ## Sequence diagrams									
