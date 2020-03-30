@@ -112,6 +112,21 @@ For each state machine you have to provide:
 The goal of your state machine diagrams is both descriptive and prescriptive, so put the needed level of detail here, finding the right trade-off between understandability of the models and their precision.
 
 ![Player State Machine with Persistence](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Player%20State%20Machine%20(1).png)
+=======
+
+#### Item State Machine
+
+The item state machine represents the internal behavior of the **Item** class.
+
+![Item State Machine Diagram](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Item%20State%20Machine%20Diagram%20(1).jpg)
+
+The state machine diagram describes the possible states an item may have over the course of the game. The game begins with no items. The user is prompted to provide the name of a JSON file, which contains the information needed to initialize the items. An item being initialized is represented by the first arrow in the diagram, labeled initialize Item(), which occurs only if a valid JSON file is provided, and then the following state. Upon entry into this state, the "Initial Item" is located in the room specified in the JSON file, and the boolean attributes *held* and *used* are set to false.
+
+If an item is picked up by the player, meaning the item now belongs to the player's inventory, the item changes state to "Item in player inventory". Upon entry to this state, the attribute *held* is set to true, meaning item is in the player's inventory and no longer in the room. Now, every time the player moves location, the item's *location* is updated as well.
+
+From the "Item in player inventory" state, the Item can be used, but only on the correct obstacle, which is represented by the arrow between the Item held and Item used states. 
+
+If the item is used from the "item in player inventory" state, the attribute *used* is set to true and the item is dropped from the inventory because it is no longer needed, thus terminating the item.
 
 Maximum number of words for this section: 4000
 
