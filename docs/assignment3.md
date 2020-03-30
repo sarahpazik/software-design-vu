@@ -115,7 +115,7 @@ The goal of your state machine diagrams is both descriptive and prescriptive, so
 
 This state machine diagram represents the state of the Player class throughout the life cycle of a single game. 
 
-![Player State Machine with Persistence](https://github.com/sarahpazik/software-design-vu/tree/Assignment3)
+![Player State Machine with Persistence](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Player%20State%20Machine%20(2).png)
 
 When the terminal is first open, no player is initialized. In A3, we added a persistence feature which allows users to save their place and then start a game again the next time the terminal is opened. Therefore, there are two possible transitions that can occur to initialize a player. 
 1. The user can specify that they want to continue a previous game. They will be prompted to input a JSON file with their username, and then a player will be initialized using the previous game state, i.e. their name, the location they were in when they quit, their inventory of items that they had already picked up, and the time spent in the game previously. This “Previous Player” will have the previous username, the “current location” specified in the JSON file attached to their username, an inventory with the items they’ve picked up, and time. 
