@@ -24,29 +24,27 @@ Provide a bullet list summarizing all the changes you performed in Assignment 2 
 Maximum number of words for this section: 1000
 
 ### Application of design patterns
-Author(s): `name of the team member(s) responsible for this section`
+Author(s): Sarah
 
-`Figure representing the UML class diagram in which all the applied design patterns are highlighted graphically (for example with a red rectangle/circle with a reference to the ID of the applied design pattern`
+![Class Diagram with design patterns labelled](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Copy%20of%20class%20diagram.png)
 
 For each application of any design pattern you have to provide a table conforming to the template below.
 
 | ID  | DP1  |
 |---|---|
 | **Design pattern**  | Decorator |
-| **Problem**  | A paragraph describing the problem you want to solve |
-| **Solution**  | A paragraph describing why with the application of the design pattern you solve the identified problem |
-| **Intended use**  | A paragraph describing how you intend to use at run-time the objects involved in the applied design patterns (you can refer to small sequence diagrams here if you want to detail how the involved parties interact at run-time |
-| **Constraints**  | Any additional constraints that the application of the design pattern is imposing, if any |
-| **Additional remarks**  | Optional, only if needed |
+| **Problem**  | We wanted a way to give the player the ability to get rid of the time limit in the game, but had no easy way to do so. |
+| **Solution**  | The decorator pattern allowed us to have a new decorated player so that when the player finds the broken clock in the game, they are turned into a decorated player who no longer has a time limit. |
+| **Intended use**  | We have a "broken clock" item in each game, and in our "pick" class/command, it checks whether the item picked up was the broken clock. If it was, the player's reference is changed to a TimeDecoratedPlayer rather than a RegularPlayer. This makes it so that the player's checkTime() method no longer counts down the time. |
+| **Constraints**  | N/A |
 
 | ID  | DP2  |
 |---|---|
 | **Design pattern**  | Command |
-| **Problem**  | A paragraph describing the problem you want to solve |
-| **Solution**  | A paragraph describing why with the application of the design pattern you solve the identified problem |
-| **Intended use**  | A paragraph describing how you intend to use at run-time the objects involved in the applied design patterns (you can refer to small sequence diagrams here if you want to detail how the involved parties interact at run-time |
-| **Constraints**  | Any additional constraints that the application of the design pattern is imposing, if any |
-| **Additional remarks**  | Optional, only if needed |
+| **Problem**  | We wanted a way to firstly separate our commands, since our Action class was getting complicated and hard to follow, and secondly be able to store the user's commands. |
+| **Solution**  | This design pattern allowed us to split each of the commands into separate classes, solving our first problem. It also allows us to store our commands like any other objects, solving the second problem. |
+| **Intended use**  | Now, when a user types a command, it calls the respective class's execute() method, which overrides the Command interface's execute() method. Now, each command can be stored as a separate object rather than just existing as a method in the Action class.  |
+| **Constraints**  | N/A |
 
 Maximum number of words for this section: 2000
 
@@ -55,7 +53,7 @@ Author(s): Sarah
 
 This chapter contains the specification of the UML class diagram of your system, together with a textual description of all its elements.
 
-`Figure representing the UML class diagram`
+![Class Diagram](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/class%20diagram%20(2).png)
 
 The **Player** interface represents the user, i.e. the person moving through the game. The *getCurrentRoom* method returns the player's current location, and the *setCurrentRoom* method changes the player's location to the given room. The player class is associated with the Room class because it needs to be able to access the player's current location. It is also associated with the Item class, because it needs to keep track of the player's inventory. The association with the Action class is because a Player needs to be able to perform actions in order to change their location or inventory. 
 
@@ -71,9 +69,9 @@ The **Command** interface has an execute() function that is implemented by each 
 
 The **Move**, **Pick**, **Use**, **Inspect**, **Help**, **Look**, and **Chat** classes all implement the Command class and override the execute method, which is then used in the Action class when executing each command. 
 
-The **Item** class represents the items in the game that can be used by the player. The *name* field holds the name of the item as a string, the *location* field holds the Room that the item is in, and *usage* holds a string that explains what the item is used for. The *held* field represents whether or not the item is currently in the user's inventory. The *used* field represents whether or not the user has already used the item. The *getNameFromItem* method returns the name of the item and the Usage method returns the item's purpose, i.e. how the player can use it. *HoldItem* changes the item's state to held, and the *useItem* method similarly changes the used state to used. It is connected to the Room class because each room can have an unlimited number of items, and the Room class needs to access that information.
+The **Item** class represents the items in the game that can be used by the player. The *name* field holds the name of the item as a string, the *location* field holds the Room that the item is in, and *usage* holds a string that explains what the item is used for. The *held* field represents whether or not the item is currently in the user's inventory. The *used* field represents whether or not the user has already used the item. The *getNameFromItem* method returns the name of the item and the Usage method returns the item's purpose, i.e. how the player can use it. *GetUsage* returns a string with what the item is used for. *HoldItem* changes the item's state to held. *isHeld* simply returns a boolean indicating whether the item is currently held or not. It is connected to the Room class because each room can have an unlimited number of items, and the Room class needs to access that information.
 
-The **Obstacle** class represents any obstacles in a room, such as something blocking a door. The *itemNeeded* field contains what item the user needs to use in order to overcome the obstacle. The *location* is the room the obstacle is located in. *RoomsBlocked* is a list of the rooms you cannot enter because of the obstacle. *Description* is an explanation of the obstacle and how to overcome it, and *clearMessage* is the message a user will see once they have overcome it. The *cleared* field contains whether or not the player has overcome the obstacle. The *clearObstacle* method clears the obstacle from the room (this will be used when the player uses the proper command/item combination). *GetItemNeeded* returns the item the player needs to use to overcome the obstacle, *getLocation* returns the room it is in, *getRoomsBlocked* returns the rooms that are blocked by the obstacle, and *getDescription* returns the description of the obstacle. *isCleared* returns a boolean indicating whether the player has overcome the obstacle. The Obstacle class, like the Item class, is associated with the Room class because each Room can have unlimited obstacles, and it needs to keep an inventory of those.
+The **Obstacle** class represents any obstacles in a room, such as something blocking a door. The *itemNeeded* field contains what item the user needs to use in order to overcome the obstacle. The *location* is the room the obstacle is located in. *RoomsBlocked* is a list of the rooms you cannot enter because of the obstacle. *Description* is an explanation of the obstacle and how to overcome it, and *clearMessage* is the message a user will see once they have overcome it. The *cleared* field contains whether or not the player has overcome the obstacle. The *clearObstacle* method clears the obstacle from the room (this will be used when the player uses the proper command/item combination). *GetItemNeeded* returns the item the player needs to use to overcome the obstacle, *getLocation* returns the room it is in, *getRoomsBlocked* returns the rooms that are blocked by the obstacle, and *getDescription* returns the description of the obstacle. *isCleared* returns a boolean indicating whether the player has overcome the obstacle, and *blocksRoom* returns whether or not the obstacle is currently blocking a room. The Obstacle class, like the Item class, is associated with the Room class because each Room can have unlimited obstacles, and it needs to keep an inventory of those.
 
 The **Setting** class represents the place the user is in, and contains all of the locations a player can go. The *rooms* field is a list of Room objects that holds every room that exists in the current game. The Setting class is composed with the Room class, because each setting can have unlimited rooms, and a room cannot exist without a setting. 
 
@@ -83,7 +81,7 @@ The **TimeLimit** class represents the time a user has left in the game. It will
 
 The **Main** class is where the execution of the game happens. It prompts the user to input a JSON file and then reads in the JSON file to execute the game from the file. The *startRoom* variable is a JSONObject indicating the room that the game starts in, and *endRoom* indicates the room that the game ends in. *RoomMap* and *itemMap* are hashmaps indicating which rooms contain which items, based on the information in the JSON file. *PlayerName* is simply a string containing the player's name, which comes from the user when the game prompts them to input their name. The Main class is able to access the Room class and TimeLimit because the Main class needs to know where the player is and whether they have won yet or not. 
 
-The **Inventory** class holds all of the information about a player's inventory. The *items* attribute is an ArrayList of every item that is in the current inventory. The *getInventory* method returns the player's current inventory, i.e. what items they are currently holding, while *addToInventory* adds an item to this list. *PrintInventory* simply prints the name of each item in the items list, so a user can see what items they can perform actions on. This class is associated with the Player class because the player needs access to their inventory, and it is also associated with the Item class because the inventory holds items, and therefore needs access to them. 
+The **Inventory** class holds all of the information about a player's inventory. The *items* attribute is an ArrayList of every item that is in the current inventory. The *getInventory* method returns the player's current inventory, i.e. what items they are currently holding, while *addToInventory* adds an item to this list. *PrintInventory* simply prints the name of each item in the items list, so a user can see what items they can perform actions on. *InventoryIsEmpty* checks whether the inventory has items in it, and *isInInventory* checks whether a specific item is in the inventory. This class is associated with the Player class because the player needs access to their inventory, and it is also associated with the Item class because the inventory holds items, and therefore needs access to them. 
 
 The **ChatClient** class is what allows a player to communicate with other players through a chat room. The *serverAddress* holds the server IP that will be used. *TextField*, *messageArea*, and *frame* are attributes that are used to build the window that the chat room is in. *In* and *out* represent the text coming in and out of the chat room. 
 
