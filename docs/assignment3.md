@@ -111,8 +111,24 @@ For each state machine you have to provide:
 
 The goal of your state machine diagrams is both descriptive and prescriptive, so put the needed level of detail here, finding the right trade-off between understandability of the models and their precision.
 
+#### Player State Machine
+
+This state machine diagram represents the state of the Player class throughout the life cycle of a single game. 
+
 ![Player State Machine with Persistence](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Player%20State%20Machine%20(1).png)
-=======
+
+When the terminal is first open, no player is initialized. In A3, we added a persistence feature which allows users to save their place and then start a game again the next time the terminal is opened. Therefore, there are two possible transitions that can occur to initialize a player. 
+1. The user can specify that they want to continue a previous game. They will be prompted to input a JSON file with their username, and then a player will be initialized using the previous game state, i.e. their name, the location they were in when they quit, their inventory of items that they had already picked up, and the time spent in the game previously. This “Previous Player” will have the previous username, the “current location” specified in the JSON file attached to their username, an inventory with the items they’ve picked up, and time. 
+2. The user can specify that they want to begin a new game, in which case they will input a name and then a new player will be initialized. This “New Player” will have a new name, begin in the “start room” fetched from the original JSON file, and will have an empty inventory with no items.
+
+Now that the player has been initialized, whether it is a new player or one who already has made progress in the game, the player enters a game state entitled “Player with Inventory in Location”. The player can now move to a new location, pick up items, or put down items. Note that there are also other commands, such as look around, inspect, etcetera which help the player throughout the game but do not significantly change the state of the player. 
+
+If the player chooses to move, they must specify a location with a valid name which is adjacent to their currentLocation. If the player chooses to pick up an item, it must be one with a valid name that is in their currentLocation and is not already held. If the player puts down an item, similar conditions apply, but the item must already be in their inventory. 
+
+This cycle continues until either:
+The player runs out of time, i.e. their time is greater than the time limit specified in the JSON file and they are not yet located in the end room. In this case, a lose statement is printed out and the game is terminated.
+The player reaches their final destination, the “end room”, within the time limit. In this case, a win statement is printed out and the game finishes.
+
 
 #### Item State Machine
 
