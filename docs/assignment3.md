@@ -7,17 +7,19 @@ Maximum number of words for this document: 18000
 **Format**: establish formatting conventions when describing your models in this document. For example, you style the name of each class in bold, whereas the attributes, operations, and associations as underlined text, objects are in italic, etc.
 
 ### Summary of changes of Assignment 2
-Author(s): Sarah
+Author(s): Sarah, Sam
 
 Provide a bullet list summarizing all the changes you performed in Assignment 2 for addressing our feedback.
 
-* Made each of our actions into separate methods in the Action class to simplify out previously long and complex switch statement
-* Added an Inventory class which holds everything relevant to a player's inventory (printInventory, addToInventory, etc) in order to keep our code organized and concise
+* Made each of our actions into separate methods in the **Action** class to simplify out our previously long and complex switch statement
+* Added an **Inventory** class which holds everything relevant to a player's inventory (printInventory, addToInventory, etc) in order to keep our code organized and concise
 * Updated class diagram to properly represent JSON objects 
+* Updated object diagram to represent the completed implementation and any changes that were made from the assignment 2 code
 * Added association names to the class diagram 
-* Added the chat room feature (Added ChatClient class) so that you can communicate with other players (use command "chat")
+* Added the chat room feature (Added **ChatClient** class) so that you can communicate with other players (use command "chat")
 * Implemented time limit feature to make the game slightly more complex
-* Added obstacles to the game using the Obstacle class to make the game more complex
+* Added obstacles to the game using the **Obstacle** class to make the game more complex
+* Added the "use" command (implemented as the **Use** class) to the game to apply **Item** to **Obstacles** to clear them
 * Implemented persistence to allow a user to save their progress. The objective behind this feature is to allow users to begin a new game, play, exit the terminal, and then restart in the same place next time they open it. This feature gives users the choice of whether or not to save their current game state, including the items they hold, their current location, and their time within the time limit, and pick up where they left off the next time they want to play. 
 
 
@@ -88,16 +90,31 @@ The **ChatClient** class is what allows a player to communicate with other playe
 In our original class diagram, we did not have an Inventory class. This led to the methods such as getInventory and printInventory being scattered across multiple classes, making things harder to understand and use. Adding an extra class for the inventory made more sense, since there are a lot more necessary methods involving the inventory than we thought. We also added a ChatClient class, where we implemented our chat room feature for our game. Now, our game supports the command "chat," and it will open a chat room on your screen, which you can then talk to other players on. In addition, we added association names to the diagram to make the arrows easier to follow. We also added an abstract class to represent the JSON file that the game reads in. 
 
 ## Object diagrams								
-Author(s): `name of the team member(s) responsible for this section`
+Author(s): Sam
 
-This chapter contains the description of a "snapshot" of the status of your system during its execution. 
-This chapter is composed of a UML object diagram of your system, together with a textual description of its key elements.
-
-`Figure representing the UML class diagram`
+![Object Diagram](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/object%20diagram%20final.png)
   
-`Textual description`
+Each of the objects represented in the object diagram match their descriptions as given in the explanation of the class 
+diagram. Notably, all objects are now represented by boxes in the default black color, as all planned features have now
+been implemented.
 
-Maximum number of words for this section: 1000
+At a given state in the game, there is always a **Player** object representing the current player of the game. It
+connects to an **Inventory** object, a **Room** object, an **Action** object, and a **Setting** object. The associated
+**Inventory** object represents the items that are in the player's current inventory - in this case, just "ovChipkaart".
+The **Action** object indicates an action currently being taken by the player - in this case, "use ovChipkaart" -
+through a specific command that represents a snapshot of a moment in the game. Notably, this **Action** is also
+associated to the **Item** because it constitutes "using" the item. Furthermore, this **Action** is connected to the
+**Obstacle** in the **Room** because using an item will clear the obstacle if it is the correct item. The **Room** 
+object indicates the room the player is currently located in - in this case, Station Zuid. Finally, the **Setting**
+object - Amsterdam - is a collection and description of all of the rooms.
+
+In turn, the **Room** object connects to an **Item** object and an **Obstacle** object. The Item object, a coffee, is
+connected because it represents an item found in that particular room. The **Obstacle** object - in this case, a stop at
+the metro - represents a barrier to continued movement by the player that can be removed by using the correct item.
+
+Finally, the **Setting** object - Amsterdam - connects to a **TimeLimit** object and back to the **Room** of
+StationZuid. The room is one of many in the setting, while the **TimeLimit** will indicate how much time is left for the
+player to reach the goal.
 
 ## State machine diagrams									
 Author(s): Elizabeth, Gemma
@@ -161,7 +178,7 @@ The goal of your sequence diagrams is both descriptive and prescriptive, so put 
 Maximum number of words for this section: 4000
 
 ## Implementation									
-Author(s): Elizabeth 
+Author(s): Elizabeth, Sam
 
 In this chapter you will describe the following aspects of your project:
 - the strategy that you followed when moving from the UML models to the implementation code;
@@ -172,10 +189,24 @@ In this chapter you will describe the following aspects of your project:
 
 IMPORTANT: remember that your implementation must be consistent with your UML models. Also, your implementation must run without the need from any other external software or tool. Failing to meet this requirement means 0 points for the implementation part of your project.
 
-In order to implement persistence, the JSON file was primarily used for saving data. When a user types the command “quit”, they are asked whether or not they want to save their place. If they answer yes, their current game state is saved to a new JSON file entitled ‘<your_name>.json’. This JSON file contains all of the information in the initial file, plus the player’s current location, the items currently in their inventory as a JSONArray, name, and current time. Next time they want to play, they are asked if they want to load a previous game. If yes, they are prompted to enter this JSON file, and resume. Once this command is parsed, the game loads in their current location as the new start room, rather than the initial start room, re-initializes their inventory with their current items, and restarts the clock against the time limit based on the time they already spent in the game.
+For the implementation of the **Obstacle** class, more mutators and accessors were added to the other classes. These
+were necessary to let obstacles print messages when a player examined their surroundings, determine movement based on
+whether an obstacle was blocking an exit, and more. Furthermore, the **Main** class was updated to allow JSON files to
+include obstacles and to ensure they were instantiated at the running of the game. Finally, the JSON files had
+**Obstacles** added to allow them to run with the updated **Main**.
 
-Maximum number of words for this section: 2000
+In order to implement persistence, the JSON file was primarily used for saving data. When a user types the command
+“quit”, they are asked whether or not they want to save their place. If they answer yes, their current game state is
+saved to a new JSON file entitled ‘<your_name>.json’. This JSON file contains all of the information in the initial
+file, plus the player’s current location, the items currently in their inventory as a JSONArray, name, and current time.
+Next time they want to play, they are asked if they want to load a previous game. If yes, they are prompted to enter
+this JSON file, and resume. Once this command is parsed, the game loads in their current location as the new start room,
+rather than the initial start room, re-initializes their inventory with their current items, and restarts the clock
+against the time limit based on the time they already spent in the game.
+
+The main Java class needed for executing the system in the source code can be found at the directory location:
+software-design-vu/src/main/java/Main.java
 
 ## References
 
-References, if needed.
+No references (as of yet).
