@@ -14,7 +14,6 @@ The Obstacle class will contain information about certain obstacles the user wil
 Using these abstract classes and subclasses, we will import specific information to create a real game using JSON and a JSON parsing library, Fastjson. Players need to accomplish their objective within a certain time limit using commands, items, and locations specified in a JSON file, which will be used to modify the abstract classes. We want to make it easy to use these abstract classes to make your own game, which will involve designing clear ways to input JSON files into a Main class.  We will also include a help command to specify what actions and items can be used at a certain time to prevent confusion or getting lost.
 Other features we will implement if time permits are multiplayer and persistence. For multiplayer, we will take the game one step further by implementing a Java chat room using ServerSocket. Because text adventure games are basically semi-automated chat rooms between a player and the prewritten consequences of various actions and items in the game, we believe we can add other users to this “chat room” to create multiplayer functionality which will depend on the overall objective of the game. The persistence feature will be significantly easier. In order to accomplish this, we will include a specification of where the player currently is and which items they are holding in the JSON file that was initially inputted into the generic game. When the player closes the terminal, this information will save to this file, so if the same file is again inputted when the terminal is later opened, they can pick up where they left off.
 
-
 ## Features
 Author(s): Beth, Sarah, Ben, Sam, Gemma
 
@@ -52,4 +51,4 @@ Author(s): Beth, Sarah, Ben, Sam, Gemma
 |---|---|
 | [Hibernate](https://hibernate.org/)  | Java framework to store persistent data |
 | [org.json](https://stleary.github.io/JSON-java/index.html) | Used for reading and writing JSON configuration files that will have descriptions of each location of the game |
-| [Java.net.Socket](https://docs.oracle.com/javase/7/docs/api/java/net/Socket.html), [Java.net.ServerSocket](https://docs.oracle.com/javase/8/docs/api/java/net/ServerSocket.html)  | Packages to facilitate websocket network communication between computers |
+| [Java.net.Socket](https://docs.oracle.com/javase/7/docs/api/java/net/Socket.html), [Java.net.ServerSocket](https://docs.oracle.com/javase/8/docs/api/java/net/ServerSocket.html)  | Packages to facilitate websocket network communication between computers 
