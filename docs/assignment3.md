@@ -1,15 +1,7 @@
 # Assignment 3
 
-Maximum number of words for this document: 18000
-
-**IMPORTANT**: In this assignment you will fully model and implement your system. The idea is that you improve your UML models and Java implementation by (i) applying (a subset of) the studied design patterns and (ii) adding any relevant implementation-specific details (e.g., classes with “technical purposes” which are not part of the domain of the system). The goal here is to improve the system in terms of maintainability, readability, evolvability, etc.    
-
-**Format**: establish formatting conventions when describing your models in this document. For example, you style the name of each class in bold, whereas the attributes, operations, and associations as underlined text, objects are in italic, etc.
-
 ### Summary of changes of Assignment 2
 Author(s): Sarah, Sam
-
-Provide a bullet list summarizing all the changes you performed in Assignment 2 for addressing our feedback.
 
 * Made each of our actions into separate methods in the **Action** class to simplify out our previously long and complex switch statement
 * Added an **Inventory** class which holds everything relevant to a player's inventory (printInventory, addToInventory, etc) in order to keep our code organized and concise
@@ -22,15 +14,10 @@ Provide a bullet list summarizing all the changes you performed in Assignment 2 
 * Added the "use" command (implemented as the **Use** class) to the game to apply **Item** to **Obstacles** to clear them
 * Implemented persistence to allow a user to save their progress. The objective behind this feature is to allow users to begin a new game, play, exit the terminal, and then restart in the same place next time they open it. This feature gives users the choice of whether or not to save their current game state, including the items they hold, their current location, and their time within the time limit, and pick up where they left off the next time they want to play. 
 
-
-Maximum number of words for this section: 1000
-
 ### Application of design patterns
 Author(s): Sarah
 
 ![Class Diagram with design patterns labelled](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Copy%20of%20class%20diagram.png)
-
-For each application of any design pattern you have to provide a table conforming to the template below.
 
 | ID  | DP1  |
 |---|---|
@@ -52,8 +39,6 @@ Maximum number of words for this section: 2000
 
 ## Class diagram									
 Author(s): Sarah
-
-This chapter contains the specification of the UML class diagram of your system, together with a textual description of all its elements.
 
 ![Class Diagram](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/class%20diagram%20(2).png)
 
@@ -118,15 +103,6 @@ player to reach the goal.
 
 ## State machine diagrams									
 Author(s): Elizabeth, Gemma
-
-This chapter contains the specification of at least 2 UML state machines of your system, together with a textual description of all their elements. Also, remember that classes the describe only data structures (e.g., Coordinate, Position) do not need to have an associated state machine since they can be seen as simple "data containers" without behaviour (they have only stateless objects).
-
-For each state machine you have to provide:
-- the name of the class for which you are representing the internal behavior;
-- a figure representing the part of state machine;
-- a textual description of all its states, transitions, activities, etc. in a narrative manner (you do not need to structure your description into tables in this case). We expect 3-4 lines of text for describing trivial or very simple state machines (e.g., those with one to three states), whereas you will provide longer descriptions (e.g., ~500 words) when describing more complex state machines.
-
-The goal of your state machine diagrams is both descriptive and prescriptive, so put the needed level of detail here, finding the right trade-off between understandability of the models and their precision.
 
 #### Player State Machine
 
