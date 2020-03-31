@@ -174,22 +174,15 @@ This diagram describes the interaction a user undertakes when inspecting an item
 
 #### Initial Setup Sequence Diagram
 
- ![Initial Startup Sequence Diagram](https://github.com/sarahpazik/software-design-vu/blob/Assignment2/Initial%20Setup%20Sequence%20Diagram.png)
+ ![Initial Startup Sequence Diagram](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Initial%20Startup%20Sequence%20Diagram.png)
 
 This diagram describes the interaction a user undertakes when selecting the story file to use and how the program initializes all of the necessary objects from the json data. This step occurs after the program has initially been run and the user is prompted to input the name of the story file they intend to use. First, the user will type the absolute file path to this json. Here, the main method of the **main** class will begin to attempt parsing. It will check if the file exists. If there is a file error, an exception will be thrown, the user will be informed that they supplied an invalid file, and program execution will terminate. Otherwise, as can be seen in the diagram, the user enters a valid file and parsing begins. A correctly formatted file will describe the start **room** and the end **room** by their names. It will also have a full description of each **room** in the game, including its name, a list of **room** objects it connects to, a list of **item** objects inside of it, and a string script that is associated with the **room** object’s role in the story. **Item** objects will have a name field and a usage description field. Finally, it will have a time limit for the game. The main method will process and save the time limit first. Then, it will call the initRooms() method. First, this will save the start **room** name, end **room** name, and list of **room** descriptions. Next, it will traverse this list of **room** objects as described by the json in a loop. Inside of this loop, it will traverse the list of **item** objects as described by the json in the **room**. Here, all of the **item** objects in a room will be initialized, passing their name and usage data from the json to the **item** constructor. They are stored in a map from their name to the **item** object. After all the **item** objects in the **room** are traversed and mapped, the process of initializing the **room** object begins. All of the data from the json about the **room** object’s name, connections, and script is parsed and, in conjunction with the previously created map of **item** objects, passed to the **room** constructor. Now that the base world is built, the beginGame() method is called. The user is prompted for his or her name and it is loaded into the game. Finally, the whileGame() method is called and the main game logic begins.
 
 
 ## Implementation									
-Author(s): Elizabeth, Sam, Gemma
+Author(s): Elizabeth, Sam, Gemma, Ben
 
-In this chapter you will describe the following aspects of your project:
-- the strategy that you followed when moving from the UML models to the implementation code;
-- the key solutions that you applied when implementing your system (for example, how you implemented the syntax highlighting feature of your code snippet manager, how you manage fantasy soccer matches, etc.);
-- the location of the main Java class needed for executing your system in your source code;
-- the location of the Jar file for directly executing your system;
-- the 30-seconds video showing the execution of your system (you can embed the video directly in your md file on GitHub).
-
-IMPORTANT: remember that your implementation must be consistent with your UML models. Also, your implementation must run without the need from any other external software or tool. Failing to meet this requirement means 0 points for the implementation part of your project.
+When initially designing our UML models, we had to consider how descriptive and/or perscriptive they would be. Designing these models in this iterative process helped us to formulate our ideas in a more concrete way and translate our thoughts to code in an organized and concerted fashion. The initial designs from assignments 1 and 2 were more perscriptive, while the final versions in this assignment are exclusively descriptive. Designing them this way enabled thought and discussion amongst our group about future implementation decisions and enabled our teaching assistants to provide useful feedback about improving our designs. They also enabled us to better visualize our system and see how design patterns could be implemented to better the readability and style of our execution.
 
 For the implementation of the **Obstacle** class, more mutators and accessors were added to the other classes. These
 were necessary to let obstacles print messages when a player examined their surroundings, determine movement based on
@@ -207,12 +200,15 @@ rather than the initial start room, re-initializes their inventory with their cu
 against the time limit based on the time they already spent in the game.
 
 An additional strategy we followed to implement the recommendations in our feedback was to create separate classes for
-all of our different actions. This allowed us to better organize all of the code relating to each action, as well as
-remove a long and extremely complicated switch statement we had in the original **Action** class.
+all of our different actions, following the command design pattern. This allowed us to better organize all of the code relating to each action, as well as simplify a long and extremely complicated switch statement we had in the original **Action** class.
 
 Another effort in simplifying and organizing our code was made in implementing the **Inventory** class. It allows us to
 organize the different **Items** a **Player** may be holding and somewhat reduces the unnecessary complexity of managing
 all of their items.
+
+In order to implement the decorator object pattern, we redefined our initial **Player** class as an interface. We then created two classes extending it, **RegularPlayer** and **PlayerDecorator**. While **RegularPlayer** was a concrete class,  **PlayerDecorator** was abstract, and extended by its child **TimeDecoratedPlayer**. Due to implementing this pattern, we can add special functionality to the **player** object in a more streamlined, efficient way. In the game, if a **player** picks up the special "Broken Clock" object, the original **Player** object is decorated and its checkTime() method is functionally altered so that the user never runs out of time while playing the game.
+
+Another feature we added to the game was a live chatroom for players to communicate and help one another during gameplay. If the user enters the "chat" command, a **ChatClient** object is created that connects to a remote amazon ec2 server located at 13.58.146.33 on port 59001. The server code runs 7 days a week, from 8 to 16 UTC. If a user attempts to connect outside of chatroom hours they will be informed that the server is closed at that time.
 
 The main Java class needed for executing the system in the source code can be found at the directory location:
 software-design-vu/src/main/java/Main.java
@@ -222,7 +218,3 @@ software-design-vu/out/artifacts/software_design_vu_2020_jar/software-design-vu-
 
 ![30-Second Demo](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Assignment3Demo1.mp4)
 This demo first shows the new Persistence feature by loading a JSON file that saved a previous game state, allowing the user to resume a previously played game. The demo then demonstrates the Obstacle feature by having to *use* an object before moving between rooms. The player in the demo loses the game by running out of time in order to demonstrate the Time Limit feature.
-
-## References
-
-No references (as of yet).
