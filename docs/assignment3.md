@@ -157,6 +157,15 @@ IMPORTANT: remember that your implementation must be consistent with your UML mo
 
 In order to implement persistence, the JSON file was primarily used for saving data. When a user types the command “quit”, they are asked whether or not they want to save their place. If they answer yes, their current game state is saved to a new JSON file entitled ‘<your_name>.json’. This JSON file contains all of the information in the initial file, plus the player’s current location, the items currently in their inventory as a JSONArray, name, and current time. Next time they want to play, they are asked if they want to load a previous game. If yes, they are prompted to enter this JSON file, and resume. Once this command is parsed, the game loads in their current location as the new start room, rather than the initial start room, re-initializes their inventory with their current items, and restarts the clock against the time limit based on the time they already spent in the game.
 
+
+
+
+The Jar file can be found at the directory location:
+software-design-vu/out/artifacts/software_design_vu_2020_jar/software-design-vu-2020-jar.jar
+
+![30-Second Demo](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Assignment3Demo1.mp4)
+This demo first shows the new Persistence feature by loading a JSON file that saved a previous game state, allowing the user to resume a previously played game. The demo then demonstrates the Obstacle feature by having to *use* an object before moving between rooms. The player in the demo loses the game by running out of time in order to demonstrate the Time Limit feature.
+
 Maximum number of words for this section: 2000
 
 ## References
