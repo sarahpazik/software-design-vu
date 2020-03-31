@@ -195,11 +195,11 @@ software-design-vu/out/artifacts/software_design_vu_2020_jar/software-design-vu-
 ![30-Second Demo](https://github.com/sarahpazik/software-design-vu/blob/Assignment3/Assignment3Demo1.mp4)
 This demo first shows the new Persistence feature by loading a JSON file that saved a previous game state, allowing the user to resume a previously played game. The demo then demonstrates the Obstacle feature by having to *use* an object before moving between rooms. The player in the demo loses the game by running out of time in order to demonstrate the Time Limit feature.
 
-One final note is that for a full game experience, the White Orchard JSON file based on the video game The Witcher 3
+One final note is that for a full game experience, the White Orchard JSON file inspired by the video game The Witcher 3
 should be played. The Amsterdam JSON mainly functions to illustrate the adaptability of the game to different settings
 as required by the assignment and is therefore not as extensive, but it is still fully playable.
 
 #### References
 
-The White_Orchard.json file is meant to mimic early levels of the video game The Witcher 3 by CD Projekt Red. Naturally,
+The White_Orchard.json file is inspired by early levels of the video game The Witcher 3 by CD Projekt Red. Naturally,
 only the "plot" is referenced, all of the code is unique.
