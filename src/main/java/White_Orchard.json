@@ -1,0 +1,287 @@
+{
+  "time limit": 1000,
+  "start room": "Hilltop",
+  "end room" : "Imperial Palace",
+  "current room": "",
+  "current inventory" : [],
+  "rooms" : [
+    {
+      "name" : "Hilltop",
+      "items" : [
+        {
+          "name" : "letter",
+          "usage" : "The letter is from your long-lost love, Yennefer of Vengerberg, imploring you to meet her in Willoughby, a town near White Orchard that has since been burned to the ground."
+        },
+        {
+          "name" : "steelSword",
+          "usage" : "The witcher's steel sword is used to fight humans or other non-magical enemies."
+        },
+        {
+          "name" : "silverSword",
+          "usage" : "The witcher's silver sword is used to fight monsters."
+        }
+      ],
+      "connects to" : ["Village Outskirts", "Abandoned Village", "Castle Ruins"],
+      "script" : "You stand on a hilltop, from which you can see the nearby town of White Orchard, the ruins of an ancient castle, and a small group of houses that have been destroyed by some passing army.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+
+    {
+      "name" : "Village Outskirts",
+      "items" : [],
+      "connects to" : ["Hilltop", "White Orchard"],
+      "script" : "You are on a stretch of road heading in the direction of White Orchard. Just in front of you, there seems to be some sort of commotion...",
+      "obstacle" : {
+        "item needed" : "silverSword",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : ["White Orchard"],
+        "description" : "There's a huge winged beast tearing into a horse carcass on the road in front of you. It doesn't look very friendly...",
+        "clear message" : "You've slain the griffin and can now move freely through this area."
+      }
+    },
+
+    {
+      "name" : "White Orchard",
+      "items" : [],
+      "connects to" : ["Village Outskirts", "Tavern", "Village Blacksmith", "Hunter's House", "Main Road"],
+      "script" : "You stand in the small, medieval village of White Orchard. You can see a forge, a house with hides tanning outside, and a tavern which seems well-frequented by the villagers.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+
+    {
+      "name" : "Village Blacksmith",
+      "items" : [],
+      "connects to" : ["White Orchard", "Hunter's House"],
+      "script" : "You see a dwarf hard at work, banging out something on an anvil. Maybe he could forge something for you.",
+      "obstacle" : {
+        "item needed" : "silverDiagram",
+        "item dropped name" : "advSilverSword",
+        "item dropped usage" : "The advanced silver sword will let you fight more powerful monsters than your regular silver sword.",
+        "rooms blocked" : [],
+        "description" : "You need a diagram to forge a new sword.",
+        "clear message" : "The blacksmith has forged you a new silver sword."
+      }
+    },
+
+    {
+      "name" : "Hunter's House",
+      "items" : [],
+      "connects to" : ["White Orchard", "Village Blacksmith", "Dense Woods", "Forest Clearing", "Cliff Base"],
+      "script" : "As you reach the house with the hides tanning outside, its inhabitant - a hunter - tells you he's seen the griffin flying around nearby above the forest.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+
+    {
+      "name" : "Dense Woods",
+      "items" : [],
+      "connects to" : ["Hunter's House"],
+      "script" : "The daylight filters down through many branches overhead. This seems to be an insignificant patch of forest.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+
+    {
+      "name" : "Forest Clearing",
+      "items" : [],
+      "connects to" : ["Hunter's House"],
+      "script" : "A pleasant clearing in the thicket, but otherwise not noteworthy.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+
+    {
+      "name" : "Cliff Base",
+      "items" : [],
+      "connects to" : ["Hunter's House", "Clifftop"],
+      "script" : "You arrive at an open area with many boulders strewn about. As a witcher, you know that griffins like to make their nests atop cliffs, much like the one nearby.",
+      "obstacle" : {
+        "item needed" : "ghoulBlood",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : ["Clifftop"],
+        "description" : "You'll want to make sure the griffin is in its nest before you climb the cliff. The open air in this area might allow a strong smell to travel far...",
+        "clear message" : "The ghoul blood spread over the rocks is sure to attract the griffin's attention - it's likely in its nest now."
+      }
+    },
+
+    {
+      "name" : "Clifftop",
+      "items" : [],
+      "connects to" : ["Cliff Base"],
+      "script" : "You climb the cliff and see a collection of branches littered with remains both human and animal. This is definitely the griffin's nest.",
+      "obstacle" : {
+        "item needed" : "advSilverSword",
+        "item dropped name" : "royalGriffinHead",
+        "item dropped usage" : "This head is proof that you've slain the griffin as requested by the Nilfgaardians.",
+        "rooms blocked" : [],
+        "description" : "Curiosity piqued by the ghoul's blood, the griffin eyes you and emits a screeching roar.",
+        "clear message" : "After a hard-fought battle, you manage to slay the griffin. Better take a trophy to prove you've done what the garrison asked..."
+      }
+    },
+
+    {
+      "name" : "Tavern",
+      "items" : [],
+      "connects to" : ["White Orchard", "Back Room"],
+      "script" : "The tavern is dark and smells of smoke and spilled ale. A bartender behind the counter polishes a mug, while a group of peasants eye you suspiciously. This might be a good place to ask if Yennefer has passed through White Orchard.",
+      "obstacle" : {
+        "item needed" : "orens",
+        "item dropped name" : "ale",
+        "item dropped usage" : "This might brighten the mood of your average village peasant.",
+        "rooms blocked" : [""],
+        "description" : "The bartender looks at you pointedly over the counter.",
+        "clear message" : "You've bought a nice cold ale from the bartender."
+      }
+    },
+
+    {
+      "name" : "Back Room",
+      "items" : [],
+      "connects to" : ["Tavern"],
+      "script" : "You step into the back room of the tavern, occupied by more peasants nursing mugs.",
+      "obstacle" : {
+        "item needed" : "ale",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "When you try to ask the villagers here about Yennefer, they just tell you to piss off.",
+        "clear message" : "Their moods brightening significantly with the offered ale, the peasants tell you that Yennefer was last seen at the Nilfgaardian garrison near White Orchard."
+      }
+    },
+
+    {
+      "name" : "Abandoned Village",
+      "items" : [
+        {
+          "name" : "orens",
+          "usage" : "Apparently missed by the marauding army, this small sum could be used to buy something in the village."
+        }
+      ],
+      "connects to" : ["Hilltop"],
+      "script" : "You stand in the still-smoldering remains of a small settlement that was clearly \"visited\" by a passing army, likely the Nilfgaardian invaders.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+
+    {
+      "name" : "Castle Ruins",
+      "items" : [
+        {
+          "name" : "silverDiagram",
+          "usage" : "This diagram seems to indicate how to create a more advanced witcher's silver sword."
+        }
+      ],
+      "connects to" : ["Hilltop", "Battlefield"],
+      "script" : "You stand amidst the ruins of a small keep, the only remnant of some long-forgotten lord.",
+      "obstacle" : {
+        "item needed" : "steelSword",
+        "item dropped name" : "crowns",
+        "item dropped usage" : "The most relevant currency to date, these would probably be accepted by even foreigners.",
+        "rooms blocked" : ["Battlefield"],
+        "description" : "Some menacing-looking bandits have taken up these ruins as a base.",
+        "clear message" : "You've killed the bandits blocking your path and can claim the money they left, as well as visit new areas."
+      }
+    },
+
+    {
+      "name" : "Battlefield",
+      "items" : [],
+      "connects to" : ["Castle Ruins"],
+      "script" : "You see bodies spread out across the site of a gruesome conflict between two armies.",
+      "obstacle" : {
+        "item needed" : "silverSword",
+        "item dropped name" : "ghoulBlood",
+        "item dropped usage" : "You feel like this pungent liquid could be smelled from a mile away.",
+        "rooms blocked" : [],
+        "description" : "Drawn by the fresh corpses, there are a number of ghouls here picking over the area.",
+        "clear message" : "You've slain the ghouls - after all, monsters sometime drop useful materials."
+      }
+    },
+
+    {
+      "name" : "Main Road",
+      "items" : [],
+      "connects to" : ["White Orchard", "Nilfgaardian Garrison"],
+      "script" : "This leads out of the village of White Orchard to places like Vizima, passing by the local Nilfgaardian encampment on the way.",
+      "obstacle" : {
+        "item needed" : "crowns",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : ["Nilfgaardian Garrison"],
+        "description" : "An official-looking Nilfgaardian has set up a counter at a crossroads with several guards. It appears you must pay a toll to use this road.",
+        "clear message" : "You have paid the toll and may move freely on the main road from now on."
+      }
+    },
+
+    {
+      "name" : "Nilfgaardian Garrison",
+      "items" : [],
+      "connects to" : ["Main Road", "Imperial Palace"],
+      "script" : "You reach the camp of the local garrison of the invading army. They have told you that they will tell you where Yennefer has gone and help you get there if you deal with a problem for them: apparently that griffin had a mate. They warn you that this griffin seems bigger and stronger, and might require a very good weapon to defeat.",
+      "obstacle" : {
+        "item needed" : "royalGriffinHead",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : ["Imperial Palace"],
+        "description" : "Without a horse, you won't be able to get all the way to the palace in Vizima. You'll need to bring the Nilfgaardians proof that you've killed the other griffin.",
+        "clear message" : "You've gotten confirmation that Yennefer was last headed for the Nilfgaardian seat in Vizima, and the garrison has given you a horse."
+      }
+    },
+
+    {
+      "name" : "Imperial Palace",
+      "items" : [],
+      "connects to" : ["Nilfgaardian Garrison"],
+      "script" : "You have reunited with Yennefer at the seat of the Nilfgaardian invasion in the captured city of Vizima. Emperor Emyhr var Emreis demands your presence for an audience.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    }
+
+  ]
+}

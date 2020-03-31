@@ -1,0 +1,108 @@
+{
+  "time limit": 3500,
+  "start room": "Central Station",
+  "end room" : "The Airplane",
+  "current room": "",
+  "current inventory" : [],
+  "rooms" : [
+    {
+      "name" : "Central Station",
+      "items" : [
+        {
+          "name" : "ovChipkaart",
+          "usage" : "The ovChipkaart is used to get in and out of the metro"
+
+        },
+        {
+          "name" : "Broken Clock",
+          "usage" : "???, but be careful! If you quit and return, you'll have to find the mysterious clock all over again."
+
+        }
+      ],
+      "connects to" : ["Station Zuid"],
+      "script" : "Welcome to Central Station, the heart of Amsterdam. You are near the entrance to the Metro, but cannot get through the gates. \nIf only you had a way to get on the Metro...",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+    {
+      "name" : "Station Zuid",
+      "items" : [
+        {
+          "name" : "raincoat",
+          "usage" : "The raincoat shields you from the rain"
+        }
+      ],
+      "connects to" : ["Zuidplein", "Central Station"],
+      "script" : "Welcome to Station Zuid. It is easy to get from here to Schiphol Airport, but you do not have enough money left on your \novChipkaart to take a train to the airport. Maybe if you walk around outside to find money, but it's pouring rain...\nIf only you had something to shield you from the rain...",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+    {
+      "name" : "Zuidplein",
+      "items" : [
+        {
+          "name" : "money",
+          "usage" : "Money can be loaded onto the ovChipkaart"
+        }
+
+      ],
+      "connects to" : ["Station Zuid", "Schiphol Airport"],
+      "script" : "Welcome to Zuidplein, located outside of Station Zuid. If you have enough money on you ovChipkaart, you can get from here to \nSchiphol Airport.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+    {
+      "name" : "Schiphol Airport",
+      "items" : [
+        {
+          "name" : "boarding pass",
+          "usage" : "The boarding pass can be used to board a plane departing Amsterdam"
+
+        }
+      ],
+      "connects to" : ["Zuidplein", "The Airplane"],
+      "script" : "Welcome to Schiphol Airport. You need to make it to your airplane before it departs. \nThere's something you'll need first, though...",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    },
+    {
+      "name" : "The Airplane",
+      "items" : [],
+      "connects to" : ["Schiphol Airport"],
+      "script" : "You have boarded the airplane.",
+      "obstacle" : {
+        "item needed" : "",
+        "item dropped name" : "",
+        "item dropped usage" : "",
+        "rooms blocked" : [],
+        "description" : "",
+        "clear message" : ""
+      }
+    }
+
+  ]
+}
