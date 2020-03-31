@@ -204,6 +204,14 @@ this JSON file, and resume. Once this command is parsed, the game loads in their
 rather than the initial start room, re-initializes their inventory with their current items, and restarts the clock
 against the time limit based on the time they already spent in the game.
 
+An additional strategy we followed to implement the recommendations in our feedback was to create separate classes for
+all of our different actions. This allowed us to better organize all of the code relating to each action, as well as
+remove a long and extremely complicated switch statement we had in the original **Action** class.
+
+Another effort in simplifying and organizing our code was made in implementing the **Inventory** class. It allows us to
+organize the different **Items** a **Player** may be holding and somewhat reduces the unnecessary complexity of managing
+all of their items.
+
 The main Java class needed for executing the system in the source code can be found at the directory location:
 software-design-vu/src/main/java/Main.java
 
